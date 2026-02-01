@@ -7,193 +7,193 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --knb-blue: #007bff; /* Bleu royal du logo */
-            --knb-yellow: #fcca13; /* Jaune de l'étoile */
-            --knb-green: #28a745; /* Vert du texte K.N.B */
+            --knb-blue: #007bff;
+            --knb-yellow: #fcca13;
+            --knb-green: #28a745;
             --knb-white: #ffffff;
         }
 
-        body {
+        body, html {
             margin: 0;
+            padding: 0;
             font-family: 'Poppins', sans-serif;
             background-color: var(--knb-blue);
             color: var(--knb-white);
-            overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            height: 100vh;
+            overflow: hidden; /* Désactive le scroll pendant l'animation */
         }
 
-        /* --- Animation Arrière-plan --- */
-        #background-animation {
+        /* --- ECRAN DE CHARGEMENT (SPLASH SCREEN) --- */
+        #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: var(--knb-blue);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: transform 1s cubic-bezier(0.85, 0, 0.15, 1);
+        }
+
+        .splash-content {
+            text-align: center;
+            animation: zoomIn 1.2s ease-out forwards;
+        }
+
+        .splash-logo {
+            width: 150px;
+            filter: drop-shadow(0 0 15px rgba(252, 202, 19, 0.5));
+        }
+
+        @keyframes zoomIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* --- ANIMATION ARRIERE-PLAN --- */
+        #background-animation {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1;
             pointer-events: none;
         }
 
         .falling-logo {
             position: absolute;
-            width: 30px; 
-            height: 30px;
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.6;
-            animation: fall linear infinite;
+            top: -50px;
         }
 
         @keyframes fall {
-            0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.6; }
-            90% { opacity: 0.6; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
-        /* --- Conteneur Principal --- */
+        /* --- CONTENEUR PRINCIPAL --- */
+        main {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            opacity: 0; /* Caché au début */
+            transform: translateY(50px);
+            transition: all 1.2s ease-out;
+        }
+
         .container {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             padding: 40px;
-            border-radius: 25px;
-            width: 100%;
-            max-width: 500px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            border-radius: 30px;
+            width: 90%;
+            max-width: 450px;
             text-align: center;
-            margin: 20px;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
         }
 
         .logo-main {
-            width: 150px;
-            margin-bottom: 20px;
+            width: 100px;
+            margin-bottom: 15px;
             border-radius: 50%;
-            border: 4px solid var(--knb-yellow);
+            border: 3px solid var(--knb-yellow);
         }
 
-        h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        p.slogan {
-            font-style: italic;
-            font-size: 14px;
-            color: var(--knb-yellow);
-            margin-bottom: 30px;
-        }
-
-        /* --- Formulaire Moderne --- */
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-            text-align: left;
-        }
-
-        .input-group {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        label {
-            font-size: 13px;
-            font-weight: 600;
-            margin-left: 5px;
-        }
-
+        /* --- FORMULAIRE --- */
+        form { display: flex; flex-direction: column; gap: 12px; text-align: left; }
+        label { font-size: 12px; font-weight: 600; margin-left: 5px; color: var(--knb-yellow); }
         input, select {
-            padding: 12px 15px;
-            border-radius: 12px;
+            padding: 14px;
+            border-radius: 15px;
             border: none;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+            background: rgba(255, 255, 255, 0.95);
             font-size: 15px;
             outline: none;
-            transition: 0.3s;
-        }
-
-        input:focus {
-            box-shadow: 0 0 0 3px var(--knb-yellow);
         }
 
         button {
             margin-top: 10px;
-            padding: 15px;
-            border-radius: 12px;
+            padding: 16px;
+            border-radius: 15px;
             border: none;
-            background-color: var(--knb-green);
+            background: var(--knb-green);
             color: white;
             font-weight: 700;
-            font-size: 16px;
             cursor: pointer;
             transition: 0.3s;
-            text-transform: uppercase;
         }
 
-        button:hover {
-            background-color: #1e7e34;
-            transform: scale(1.02);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
+        button:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0,0,0,0.2); }
+        button:active { transform: scale(0.98); }
 
-        footer {
-            margin-top: 25px;
-            font-size: 12px;
-            opacity: 0.8;
-        }
+        /* Classe pour lancer les animations après le splash */
+        .reveal-site { opacity: 1 !important; transform: translateY(0) !important; }
     </style>
 </head>
 <body>
 
+    <div id="splash-screen">
+        <div class="splash-content">
+            <img src="logo_knb.png" alt="KNB Logo" class="splash-logo">
+            <h2 style="margin-top: 15px; letter-spacing: 3px;">KONGO NA BISO</h2>
+        </div>
+    </div>
+
     <div id="background-animation"></div>
 
-    <div class="container">
-        <img src="logo_knb.png" alt="Logo KNB" class="logo-main">
-        
-        <h1>Kongo Na Biso</h1>
-        <p class="slogan">Sinzili, il est temps, allons-y.</p>
+    <main id="main-content">
+        <div class="container">
+            <img src="logo_knb.png" alt="Logo KNB" class="logo-main">
+            <h1 style="font-size: 22px; margin: 0;">ADHÉSION OFFICIELLE</h1>
+            <p style="font-size: 13px; margin-bottom: 25px; opacity: 0.9;">Sinzili, il est temps, allons-y.</p>
 
-        <form id="form-adhesion">
-            <div class="input-group">
-                <label>Nom Complet</label>
+            <form id="form-adhesion">
+                <label>NOM COMPLET</label>
                 <input type="text" name="Nom" placeholder="Ex: Jean Mukendi" required>
-            </div>
 
-            <div class="input-group">
-                <label>Numéro WhatsApp</label>
+                <label>NUMÉRO WHATSAPP</label>
                 <input type="tel" name="Telephone" placeholder="+243..." required>
-            </div>
 
-            <div class="input-group">
-                <label>Commune / Ville</label>
+                <label>COMMUNE / VILLE</label>
                 <input type="text" name="Commune" placeholder="Ex: Limete, Kinshasa" required>
-            </div>
 
-            <div class="input-group">
-                <label>Catégorie de Membre</label>
+                <label>CATÉGORIE</label>
                 <select name="Categorie" required>
                     <option value="">-- Choisir --</option>
                     <option value="Jeune Adhérent">Jeune Adhérent</option>
                     <option value="Cadre">Cadre</option>
                     <option value="Sympathisant">Sympathisant</option>
                 </select>
-            </div>
 
-            <button type="submit" id="submit-btn">Devenir Membre Officiel</button>
-        </form>
-
-        <footer>© 2026 Mouvement Citoyen Kongo Na Biso</footer>
-    </div>
+                <button type="submit" id="submit-btn">DEVENIR MEMBRE</button>
+            </form>
+            <footer style="margin-top: 20px; font-size: 10px; opacity: 0.6;">© 2026 Mouvement KNB</footer>
+        </div>
+    </main>
 
     <script>
-        // --- Animation des logos/cœurs tombants ---
+        // --- GESTION DU CHARGEMENT FLUIDE ---
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash-screen');
+                const main = document.getElementById('main-content');
+                
+                // Le splash glisse vers le haut
+                splash.style.transform = 'translateY(-100%)';
+                
+                // Le formulaire apparaît avec fluidité
+                setTimeout(() => {
+                    main.classList.add('reveal-site');
+                    document.body.style.overflowY = 'auto'; // Réactive le scroll
+                }, 400);
+            }, 2000); // Affiche le logo pendant 2 secondes
+        });
+
+        // --- ANIMATION DES COEURS ---
         const bg = document.getElementById('background-animation');
         const logoImg = 'mini_logo_coeur.png'; 
 
@@ -202,55 +202,38 @@
             heart.className = 'falling-logo';
             heart.style.backgroundImage = `url(${logoImg})`;
             heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
-            heart.style.width = heart.style.height = (Math.random() * 20 + 20) + 'px';
-            
+            heart.style.width = heart.style.height = (Math.random() * 20 + 15) + 'px';
+            heart.style.animation = `fall ${Math.random() * 3 + 4}s linear forwards`;
             bg.appendChild(heart);
-
-            setTimeout(() => {
-                heart.remove();
-            }, 7000);
+            setTimeout(() => heart.remove(), 7000);
         }
+        setInterval(createHeart, 500);
 
-        setInterval(createHeart, 400);
-
-        // --- Envoi vers Google Sheet via ton lien Sheet.best ---
+        // --- ENVOI DES DONNEES ---
         const form = document.getElementById('form-adhesion');
-        const btn = document.getElementById('submit-btn');
-
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            
-            // On change le texte du bouton pendant l'envoi
-            btn.innerText = "Envoi en cours...";
+            const btn = document.getElementById('submit-btn');
+            btn.innerText = "ENREGISTREMENT...";
             btn.disabled = true;
 
-            const formData = new FormData(form);
-            const data = Object.fromEntries(formData.entries());
-            
-            // Ajout de la date automatique (Colonne A1)
+            const data = Object.fromEntries(new FormData(form).entries());
             data.Date = new Date().toLocaleString('fr-FR');
 
-            const sheetURL = "https://api.sheetbest.com/sheets/e8fdc638-d9d8-4ed3-b140-44dcb4aceebc";
-
             try {
-                const response = await fetch(sheetURL, {
+                const response = await fetch("https://api.sheetbest.com/sheets/e8fdc638-d9d8-4ed3-b140-44dcb4aceebc", {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)
                 });
-                
                 if(response.ok) {
-                    alert("Félicitations ! Votre adhésion au mouvement KNB a été enregistrée avec succès.");
+                    alert("✅ Bienvenue ! Votre adhésion est validée.");
                     form.reset();
-                } else {
-                    alert("Une erreur est survenue côté serveur. Vérifiez la configuration.");
                 }
             } catch (err) {
-                console.error(err);
-                alert("Erreur de connexion. Vérifiez votre internet.");
+                alert("Erreur de connexion.");
             } finally {
-                btn.innerText = "Devenir Membre Officiel";
+                btn.innerText = "DEVENIR MEMBRE";
                 btn.disabled = false;
             }
         });
