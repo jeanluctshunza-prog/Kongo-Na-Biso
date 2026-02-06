@@ -3,152 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNB - Kongo Na Biso | Officiel</title>
-    <link rel="icon" type="image/png" href="logo.jpeg">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
-    
+    <title>KNB - Officiel</title>
+    <link rel="icon" href="logo.jpeg">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --gris: #f4f4f4; }
-        * { box-sizing: border-box; }
-        body, html { margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; color: var(--noir); background: #fff; line-height: 1.5; }
-
-        /* HEADER RESPONSIVE */
-        header {
-            background-color: var(--vert);
-            height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 5%;
-            position: fixed;
-            width: 100%;
-            top: 0;
-            z-index: 1000;
-        }
-        .logo-box img { height: 55px; background: white; padding: 5px; border-radius: 5px; }
-        nav a { color: white; text-decoration: none; margin-left: 15px; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; }
-
-        /* HERO SECTION ADAPTÉE */
-        .hero {
-            height: 100vh;
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('hero-bg.jpg') center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 20px;
-        }
-        .hero h1 { font-size: clamp(2.5rem, 8vw, 6rem); font-weight: 900; text-transform: uppercase; line-height: 1; }
-        .hero .tagline-box { background-color: var(--jaune); color: var(--noir); padding: 12px 25px; font-size: clamp(1rem, 3vw, 2rem); font-weight: 900; margin-top: 20px; }
-
-        /* TEXTES ADAPTÉS */
-        .section-text { padding: 100px 7% 50px 7%; max-width: 1000px; margin: auto; }
-        .section-text h2 { font-size: clamp(1.8rem, 5vw, 3rem); font-weight: 900; border-left: 8px solid var(--jaune); padding-left: 15px; margin-bottom: 30px; }
-        .content-body p { font-size: 1.05rem; margin-bottom: 20px; text-align: left; }
-
-        /* GRILLE PHOTO RESPONSIVE */
-        .photo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; padding: 0 5% 80px 5%; }
-        .photo-card img { width: 100%; height: 250px; object-fit: cover; border-radius: 8px; border-bottom: 5px solid var(--vert); }
-        .photo-card h3 { font-size: 0.8rem; text-transform: uppercase; font-weight: 900; margin-top: 10px; text-align: center; }
-
-        /* FORMULAIRE ADAPTÉ MOBILE */
-        .adhesion-section { background-color: var(--gris); padding: 60px 5%; }
-        .adhesion-container { max-width: 600px; margin: 0 auto; background: white; padding: 30px 20px; border-radius: 12px; }
-        .adhesion-container h2 { text-align: center; font-size: 1.5rem; font-weight: 900; margin-bottom: 30px; }
+        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #fff; }
         
-        /* Mobile : une seule colonne pour les inputs */
-        .form-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
-        @media (min-width: 600px) { .form-grid { grid-template-columns: 1fr 1fr; } }
+        header { background: var(--vert); height: 70px; display: flex; align-items: center; justify-content: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
+        header img { height: 50px; background: white; padding: 5px; border-radius: 5px; }
 
-        input, select { width: 100%; padding: 12px; margin-bottom: 15px; border: 2px solid #ddd; border-radius: 5px; font-family: 'Montserrat'; font-size: 0.9rem; }
-        button { background-color: var(--bleu); color: white; border: none; padding: 18px; width: 100%; font-weight: 900; text-transform: uppercase; cursor: pointer; border-radius: 5px; font-size: 1rem; }
+        .hero { 
+            height: 100vh; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-bg.jpg') center/cover;
+            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 20px;
+        }
+        h1 { font-size: 2.5rem; text-transform: uppercase; margin: 0; }
+        .tag { background: var(--jaune); color: #000; padding: 10px 20px; font-weight: 900; margin-top: 15px; }
 
-        footer { background: var(--noir); color: white; padding: 40px 5%; text-align: center; font-size: 0.8rem; }
-
-        /* Suppression du menu sur trop petit mobile pour éviter le chevauchement */
-        @media (max-width: 400px) { nav { display: none; } }
+        .menu-grid { padding: 40px 20px; display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 500px; margin: auto; }
+        .btn { 
+            text-decoration: none; background: var(--vert); color: white; padding: 20px; 
+            border-radius: 10px; text-align: center; font-weight: 900; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        .btn-blue { background: var(--bleu); }
     </style>
 </head>
 <body>
-
-    <header>
-        <div class="logo-box"><img src="logo.jpeg" alt="Logo KNB"></div>
-        <nav>
-            <a href="#mouvement">Mouvement</a>
-            <a href="#adhesion">Adhésion</a>
-        </nav>
-    </header>
-
+    <header><img src="logo.jpeg"></header>
     <div class="hero">
         <h1>KONGO NA BISO</h1>
-        <div class="tagline-box">IL EST TEMPS ALLONS-Y</div>
+        <div class="tag">IL EST TEMPS ALLONS-Y</div>
     </div>
-
-    <section id="mouvement" class="section-text">
-        <h2>NOTRE HISTOIRE</h2>
-        <div class="content-body">
-            <p>Le mouvement citoyen <strong>KONGO NA BISO</strong> est né d’une volonté profonde de voir émerger une jeunesse congolaise consciente et engagée.</p>
-            <p>Fondé en 2025 par <strong>NGOMA MASSUNDU PHILIPPE</strong>, licencié de l'UPC, pour répondre aux défis de la RDC.</p>
-        </div>
-    </section>
-
-    <div id="galerie" class="photo-grid">
-        <div class="photo-card"><img src="histoire.jpg"><h3>Histoire</h3></div>
-        <div class="photo-card"><img src="culture.jpg"><h3>Culture</h3></div>
-        <div class="photo-card"><img src="jeunesse.jpg"><h3>Jeunesse</h3></div>
-        <div class="photo-card"><img src="heros.jpg"><h3>Héros</h3></div>
+    <div class="menu-grid">
+        <a href="histoire.html" class="btn">Notre Histoire</a>
+        <a href="adhesion.html" class="btn btn-blue">Rejoindre le Mouvement</a>
     </div>
-
-    <section id="adhesion" class="adhesion-section">
-        <div class="adhesion-container">
-            <h2>DEVENIR MEMBRE</h2>
-            <form id="form-knb">
-                <div class="form-grid">
-                    <input type="text" name="nom" placeholder="NOM" required>
-                    <input type="text" name="postnom" placeholder="POSTNOM" required>
-                </div>
-                <input type="text" name="prenom" placeholder="PRÉNOM" required>
-                <input type="text" name="adresse" placeholder="ADRESSE" required>
-                <input type="tel" name="telephone" placeholder="TÉLÉPHONE" required>
-                <input type="email" name="email" placeholder="EMAIL" required>
-                <select name="type_membre" required>
-                    <option value="">TYPE DE MEMBRE</option>
-                    <option value="Actif">MEMBRE ACTIF</option>
-                    <option value="Passif">MEMBRE PASSIF</option>
-                </select>
-                <button type="submit" id="submit-btn">REJOINDRE</button>
-            </form>
-        </div>
-    </section>
-
-    <footer><p>KONGO NA BISO © 2026</p></footer>
-
-    <script>
-        // L'URL corrigée avec "exec" à la fin
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1fbQZioM-qugdiKxRsXaHs7FpQOY40pOr8wiFqP5_PlH0PzRXXC2WT8CdNpqiA4H_/exec'
-        const form = document.getElementById('form-knb')
-
-        form.addEventListener('submit', e => {
-            e.preventDefault()
-            const btn = document.getElementById('submit-btn')
-            btn.innerHTML = "ENVOI..."
-            btn.disabled = true
-            
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    alert("Merci ! Adhésion réussie.");
-                    form.reset();
-                    btn.innerHTML = "REJOINDRE";
-                    btn.disabled = false;
-                })
-                .catch(error => { 
-                    alert("Erreur de transmission. Vérifiez le déploiement du script."); 
-                    btn.innerHTML = "REJOINDRE";
-                    btn.disabled = false;
-                })
-        })
-    </script>
 </body>
 </html>
