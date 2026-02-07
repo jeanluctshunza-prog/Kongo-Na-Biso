@@ -3,42 +3,131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KNB - Officiel</title>
+    <title>KONGO NA BISO - Officiel</title>
     <link rel="icon" href="logo.jpeg">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; }
-        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #fff; }
+        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --blanc: #ffffff; }
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--blanc); color: var(--noir); line-height: 1.6; }
+
+        /* HEADER FIXE */
+        header { 
+            background: var(--vert); 
+            height: 65px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: space-between; 
+            padding: 0 5%; 
+            position: fixed; 
+            width: 100%; 
+            top: 0; 
+            z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        .logo-box img { height: 45px; background: white; padding: 3px; border-radius: 5px; }
         
-        header { background: var(--vert); height: 70px; display: flex; align-items: center; justify-content: center; position: fixed; width: 100%; top: 0; z-index: 1000; }
-        header img { height: 50px; background: white; padding: 5px; border-radius: 5px; }
+        /* MENU DE NAVIGATION */
+        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; margin-left: 10px; }
+        nav a.active { color: var(--jaune); }
 
+        /* HERO SECTION RÉDUITE (Comme demandé) */
         .hero { 
-            height: 100vh; 
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-bg.jpg') center/cover;
-            display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; color: white; padding: 20px;
+            height: 40vh; 
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('hero-bg.jpg') center/cover no-repeat;
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            text-align: center; 
+            color: white; 
+            margin-top: 65px;
         }
-        h1 { font-size: 2.5rem; text-transform: uppercase; margin: 0; }
-        .tag { background: var(--jaune); color: #000; padding: 10px 20px; font-weight: 900; margin-top: 15px; }
+        .hero h1 { font-size: 1.8rem; font-weight: 900; margin: 0; text-transform: uppercase; letter-spacing: 1px; }
+        .hero .tagline { background: var(--jaune); color: black; padding: 5px 15px; font-weight: 900; margin-top: 10px; font-size: 0.8rem; }
 
-        .menu-grid { padding: 40px 20px; display: grid; grid-template-columns: 1fr; gap: 20px; max-width: 500px; margin: auto; }
-        .btn { 
-            text-decoration: none; background: var(--vert); color: white; padding: 20px; 
-            border-radius: 10px; text-align: center; font-weight: 900; text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        /* SECTION DIRIGEANTS (GRID PRO) */
+        .section-title { text-align: center; padding: 30px 5% 10px 5%; font-weight: 900; color: var(--vert); text-transform: uppercase; font-size: 1.2rem; }
+        .section-title span { border-bottom: 4px solid var(--jaune); }
+
+        .dirigeants-grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 12px; 
+            padding: 20px 5% 40px 5%; 
         }
-        .btn-blue { background: var(--bleu); }
+        .card { 
+            background: #fdfdfd; 
+            border: 1px solid #eee; 
+            border-top: 4px solid var(--vert); 
+            padding: 15px 10px; 
+            border-radius: 8px; 
+            text-align: center; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+        .card h3 { margin: 0; font-size: 0.85rem; text-transform: uppercase; color: var(--vert); }
+        .card p { margin: 5px 0 0; font-size: 0.7rem; font-weight: 700; color: #666; }
+
+        /* BOUTON ADHÉSION RAPIDE */
+        .cta-box { text-align: center; padding: 20px 5% 50px 5%; }
+        .btn-adherer { 
+            background: var(--bleu); 
+            color: white; 
+            text-decoration: none; 
+            padding: 18px 30px; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            text-transform: uppercase; 
+            display: inline-block;
+            box-shadow: 0 5px 15px rgba(0,170,228,0.4);
+        }
+
+        footer { background: var(--noir); color: white; text-align: center; padding: 30px; font-size: 0.7rem; }
     </style>
 </head>
 <body>
-    <header><img src="logo.jpeg"></header>
+
+    <header>
+        <div class="logo-box"><img src="logo.jpeg" alt="Logo KNB"></div>
+        <nav>
+            <a href="index.html" class="active">Accueil</a>
+            <a href="mouvement.html">Mouvement</a>
+            <a href="adhesion.html">Adhésion</a>
+        </nav>
+    </header>
+
     <div class="hero">
         <h1>KONGO NA BISO</h1>
-        <div class="tag">IL EST TEMPS ALLONS-Y</div>
+        <div class="tagline">IL EST TEMPS ALLONS-Y</div>
     </div>
-    <div class="menu-grid">
-        <a href="histoire.html" class="btn">Notre Histoire</a>
-        <a href="adhesion.html" class="btn btn-blue">Rejoindre le Mouvement</a>
+
+    <h2 class="section-title"><span>Équipe Dirigeante</span></h2>
+
+    <div class="dirigeants-grid">
+        <div class="card"><h3>CHRISTOPHER</h3><p>Vice-Président</p></div>
+        <div class="card"><h3>AMOS</h3><p>Directeur de Cabinet</p></div>
+        <div class="card"><h3>STANIS</h3><p>Secrétaire Administratif</p></div>
+        <div class="card"><h3>MARIAM</h3><p>Trésorière</p></div>
+        <div class="card"><h3>DYLAN</h3><p>Média & Projets</p></div>
+        <div class="card"><h3>EMILE</h3><p>S.G.A Discipline</p></div>
+        <div class="card"><h3>EXAUCE</h3><p>S.G.A Finance</p></div>
+        <div class="card"><h3>MAËS</h3><p>S.G.A Mobilisation</p></div>
+        <div class="card"><h3>GIOVANNI</h3><p>S.G.A Partenariat</p></div>
+        <div class="card"><h3>KEVIN</h3><p>Organisation</p></div>
+        <div class="card"><h3>MARDOCHÉ</h3><p>Communication</p></div>
+        <div class="card"><h3>FEZA</h3><p>Communicatrice</p></div>
     </div>
+
+    <div class="cta-box">
+        <p style="font-weight: 700; margin-bottom: 20px;">Prêt à bâtir le nouveau Congo avec nous ?</p>
+        <a href="adhesion.html" class="btn-adherer">Rejoindre le Mouvement</a>
+    </div>
+
+    <footer>
+        <p>Mouvement Citoyen KONGO NA BISO (KNB)</p>
+        <p>Inspiré par Philippe Ngoma Massundu</p>
+        <p>© 2026 - Tous droits réservés</p>
+    </footer>
+
 </body>
 </html>
