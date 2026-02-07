@@ -7,85 +7,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         :root { --vert: #007a33; --jaune: #f7d117; --blanc: #ffffff; }
+        * { box-sizing: border-box; }
         
-        /* Centrage vertical et horizontal parfait */
-        html, body { height: 100%; margin: 0; }
-        body { 
-            font-family: 'Montserrat', sans-serif; 
-            background: #f4f4f4; 
-            display: flex; 
-            flex-direction: column;
-            align-items: center; 
-            justify-content: center; 
-            padding: 20px;
-            box-sizing: border-box;
-        }
+        /* Correction du défilement mobile */
+        html, body { height: 100%; margin: 0; background: #f4f4f4; font-family: 'Montserrat', sans-serif; }
+        body { display: flex; flex-direction: column; align-items: center; padding-top: 90px; padding-bottom: 50px; overflow-y: auto; }
 
-        /* Header réduit pour laisser de la place au formulaire */
         header { 
-            background: var(--vert); 
-            height: 60px; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 15px; 
-            position: fixed; 
-            width: 100%; 
-            top: 0; 
-            z-index: 1000;
+            background: var(--vert); height: 70px; display: flex; align-items: center; 
+            justify-content: space-between; padding: 0 15px; position: fixed; width: 100%; top: 0; z-index: 1000; 
         }
-        .logo-box img { height: 35px; background: white; padding: 3px; border-radius: 5px; }
-        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; padding: 8px; background: rgba(255,255,255,0.1); border-radius: 5px; }
+        .logo-box img { height: 40px; background: white; padding: 3px; border-radius: 5px; }
+        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; }
 
-        /* Conteneur du formulaire */
         .container { 
-            width: 100%; 
-            max-width: 450px; 
-            background: white; 
-            padding: 30px; 
-            border-radius: 25px; 
-            box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
-            position: relative; 
-            overflow: hidden; 
-            box-sizing: border-box;
-            margin-top: 40px; /* Espace pour ne pas coller au header */
+            width: 90%; max-width: 450px; background: white; padding: 30px; 
+            border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
         }
         
-        h2 { color: var(--vert); text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 25px; font-size: 1.2rem; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; transition: 0.3s; font-family: inherit; box-sizing: border-box; }
-        input:focus { border-color: var(--vert); outline: none; }
+        h2 { color: var(--vert); text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 25px; }
+        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; }
 
-        .btn-submit { width: 100%; padding: 18px; background: var(--vert); color: white; border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1rem; text-transform: uppercase; }
-
-        /* EFFET CHARGEMENT */
-        #loader { display: none; text-align: center; padding: 40px 0; }
-        .spinner { 
-            width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid var(--vert); 
-            border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px; 
+        .btn-submit { 
+            width: 100%; padding: 20px; background: var(--vert); color: white; 
+            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1.1rem; 
         }
+
+        #loader { display: none; text-align: center; padding: 30px 0; }
+        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--vert); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        /* MESSAGE DE SUCCÈS INTERACTIF */
-        #success-ui { display: none; text-align: center; animation: fadeInUp 0.6s ease-out; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        
-        .check-icon { font-size: 60px; color: var(--vert); margin-bottom: 15px; }
-        .congrats { font-weight: 900; color: var(--vert); font-size: 1.4rem; margin-bottom: 10px; }
-        
-        .btn-whatsapp { 
-            display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 15px; 
-            background: #25D366; color: white; text-decoration: none; border-radius: 12px; font-weight: 700; margin-top: 20px; box-sizing: border-box;
-        }
+        #success-ui { display: none; text-align: center; padding: 20px; }
+        .check { font-size: 50px; color: var(--vert); }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo-box"><img src="logo.jpeg" alt="KNB"></div>
-        <nav>
-            <a href="index.html">Accueil</a>
-            <a href="mouvement.html">Mouvement</a>
-        </nav>
+        <nav><a href="index.html">Accueil</a></nav>
     </header>
 
     <div class="container">
@@ -96,15 +56,15 @@
                 <input type="text" name="postnom" placeholder="POSTNOM" required>
                 <input type="text" name="prenom" placeholder="PRÉNOM" required>
                 <input type="tel" name="telephone" placeholder="N° WHATSAPP" required>
-                <input type="email" name="email" placeholder="EMAIL (FACULTATIF)">
+                <input type="email" name="email" placeholder="EMAIL">
                 
-                <select name="cotisation">
+                <select name="cotisation" required>
                     <option value="" disabled selected>Prêt pour cotisation ?</option>
-                    <option value="Oui">Oui, je suis prêt</option>
-                    <option value="Non">Pas pour l'instant</option>
+                    <option value="Oui">Oui, prêt</option>
+                    <option value="Non">Non</option>
                 </select>
 
-                <select name="type_membre">
+                <select name="type_membre" required>
                     <option value="Actif">Membre Actif</option>
                     <option value="Passif">Membre Passif</option>
                 </select>
@@ -115,19 +75,14 @@
 
         <div id="loader">
             <div class="spinner"></div>
-            <p style="font-weight: 700; color: var(--vert);">Traitement de votre dossier...</p>
+            <p>Validation en cours...</p>
         </div>
 
         <div id="success-ui">
-            <div class="check-icon">✔</div>
-            <div class="congrats">BIENVENUE !</div>
-            <p>Votre adhésion au mouvement <strong>KONGO NA BISO</strong> a été enregistrée.</p>
-            
-            <a href="https://wa.me/243000000000?text=Bonjour, je viens de m'inscrire au mouvement KNB" class="btn-whatsapp">
-                CONTACTER SUR WHATSAPP
-            </a>
-            
-            <a href="index.html" style="display:block; margin-top:20px; color:#888; text-decoration:none; font-size:0.8rem;">Retour à l'accueil</a>
+            <div class="check">✔</div>
+            <h3>BIENVENUE !</h3>
+            <p>Votre adhésion est valide et enregistrée avec succès.</p>
+            <a href="index.html" style="color: var(--vert); text-decoration: none; font-weight: 700;">Retour à l'accueil</a>
         </div>
     </div>
 
@@ -146,7 +101,7 @@
                 document.getElementById('success-ui').style.display = 'block';
             })
             .catch(error => {
-                alert("Erreur réseau. Réessayez.");
+                alert("Erreur de connexion");
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('form-step').style.display = 'block';
             });
