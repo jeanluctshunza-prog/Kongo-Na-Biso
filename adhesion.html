@@ -1,20 +1,94 @@
-<form id="form-knb">
-    <input type="text" name="nom" placeholder="NOM" required>
-    <input type="text" name="postnom" placeholder="POSTNOM" required>
-    <input type="text" name="prenom" placeholder="PRÉNOM" required>
-    <input type="tel" name="telephone" placeholder="TÉLÉPHONE (WHATSAPP)" required>
-    <input type="email" name="email" placeholder="EMAIL (FACULTATIF)">
-    
-    <label>Prêt à verser une cotisation mensuelle ?</label>
-    <select name="cotisation" required>
-        <option value="Non">Non</option>
-        <option value="Oui">Oui</option>
-    </select>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adhésion - KNB</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --blanc: #ffffff; }
+        body { margin: 0; font-family: 'Montserrat', sans-serif; background: #f4f4f4; padding-top: 70px; }
+        
+        header { background: var(--vert); height: 65px; position: fixed; width: 100%; top: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        header img { height: 40px; background: white; padding: 2px; border-radius: 4px; }
 
-    <select name="type_membre" required>
-        <option value="Actif">Membre Actif</option>
-        <option value="Passif">Membre Passif</option>
-    </select>
+        .container { max-width: 500px; margin: 20px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        h2 { color: var(--vert); text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 25px; }
+        
+        .form-group { margin-bottom: 15px; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 1rem; box-sizing: border-box; }
+        label { font-size: 0.8rem; font-weight: 700; color: #555; display: block; margin-bottom: 5px; }
 
-    <button type="submit" id="submit-btn">ENVOYER MON ADHÉSION</button>
-</form>
+        .btn-submit { width: 100%; padding: 15px; background: var(--bleu); color: white; border: none; border-radius: 8px; font-weight: 900; font-size: 1rem; cursor: pointer; transition: 0.3s; }
+        .btn-submit:hover { background: #0089b8; }
+
+        #message { margin-top: 20px; padding: 15px; border-radius: 8px; text-align: center; display: none; font-weight: 700; }
+        .success { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <header><img src="logo.jpeg" alt="Logo KNB"></header>
+
+    <div class="container">
+        <h2>Fiche d'Adhésion</h2>
+        <form id="formKNB">
+            <div class="form-group"><input type="text" name="nom" placeholder="NOM" required></div>
+            <div class="form-group"><input type="text" name="postnom" placeholder="POSTNOM" required></div>
+            <div class="form-group"><input type="text" name="prenom" placeholder="PRÉNOM" required></div>
+            <div class="form-group"><input type="tel" name="telephone" placeholder="TÉLÉPHONE (WHATSAPP)" required></div>
+            <div class="form-group">
+                <label>Email (Facultatif)</label>
+                <input type="email" name="email" placeholder="votre@email.com">
+            </div>
+            <div class="form-group">
+                <label>Cotisation mensuelle ?</label>
+                <select name="cotisation">
+                    <option value="Oui">Oui, je suis prêt</option>
+                    <option value="Non">Non, pas maintenant</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Type de membre</label>
+                <select name="type_membre">
+                    <option value="Actif">Membre Actif</option>
+                    <option value="Passif">Membre Passif</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-submit" id="submitBtn">ENVOYER MON ADHÉSION</button>
+        </form>
+        <div id="message"></div>
+    </div>
+
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx1fbQZioM-qugdiKxRsXaHs7FpQOY40pOr8wiFqP5_PlH0PzRXXC2WT8CdNpqiA4H_/exec';
+        const form = document.getElementById('formKNB');
+        const btn = document.getElementById('submitBtn');
+        const msg = document.getElementById('message');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            btn.disabled = true;
+            btn.innerText = "ENVOI EN COURS...";
+            msg.style.display = "none";
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    msg.innerText = "FÉLICITATIONS ! Votre adhésion a été reçue.";
+                    msg.className = "success";
+                    msg.style.display = "block";
+                    form.reset();
+                    btn.disabled = false;
+                    btn.innerText = "ENVOYER MON ADHÉSION";
+                })
+                .catch(error => {
+                    msg.innerText = "ERREUR. Vérifiez votre connexion.";
+                    msg.className = "error";
+                    msg.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerText = "RÉESSAYER";
+                });
+        });
+    </script>
+</body>
+</html>
