@@ -3,42 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adhésion - KNB</title>
+    <title>Adhésion - KNB Officiel</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --blanc: #ffffff; }
+        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --blanc: #ffffff; }
         * { box-sizing: border-box; }
         
-        /* Correction du défilement mobile */
-        html, body { height: 100%; margin: 0; background: #f4f4f4; font-family: 'Montserrat', sans-serif; }
-        body { display: flex; flex-direction: column; align-items: center; padding-top: 90px; padding-bottom: 50px; overflow-y: auto; }
+        /* Structure pour le scroll mobile */
+        html, body { min-height: 100%; margin: 0; background: #f4f4f4; font-family: 'Montserrat', sans-serif; }
+        body { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            padding-top: 90px; /* Espace pour le header fixe */
+            padding-bottom: 50px; 
+            overflow-y: auto; 
+        }
 
+        /* Header fixe */
         header { 
             background: var(--vert); height: 70px; display: flex; align-items: center; 
             justify-content: space-between; padding: 0 15px; position: fixed; width: 100%; top: 0; z-index: 1000; 
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         .logo-box img { height: 40px; background: white; padding: 3px; border-radius: 5px; }
-        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.7rem; text-transform: uppercase; }
+        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; padding: 10px; background: rgba(255,255,255,0.1); border-radius: 5px; }
 
+        /* Conteneur du formulaire */
         .container { 
-            width: 90%; max-width: 450px; background: white; padding: 30px; 
+            width: 92%; max-width: 450px; background: white; padding: 30px; 
             border-radius: 25px; box-shadow: 0 15px 35px rgba(0,0,0,0.1); 
         }
         
-        h2 { color: var(--vert); text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 25px; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; border-radius: 12px; font-size: 1rem; outline: none; }
+        h2 { color: var(--vert); text-align: center; text-transform: uppercase; font-weight: 900; margin-bottom: 25px; font-size: 1.3rem; }
+        
+        input, select { 
+            width: 100%; padding: 15px; margin-bottom: 15px; border: 2px solid #eee; 
+            border-radius: 12px; font-size: 1rem; font-family: inherit; outline: none; transition: 0.3s; 
+        }
+        input:focus { border-color: var(--vert); box-shadow: 0 0 8px rgba(0,122,51,0.1); }
 
+        /* Bouton Envoyer */
         .btn-submit { 
             width: 100%; padding: 20px; background: var(--vert); color: white; 
-            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; font-size: 1.1rem; 
+            border: none; border-radius: 12px; font-weight: 900; cursor: pointer; 
+            font-size: 1.1rem; text-transform: uppercase; margin-top: 10px;
         }
 
+        /* Chargement & Succès */
         #loader { display: none; text-align: center; padding: 30px 0; }
-        .spinner { width: 40px; height: 40px; border: 4px solid #f3f3f3; border-top: 4px solid var(--vert); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 10px; }
+        .spinner { width: 45px; height: 45px; border: 5px solid #f3f3f3; border-top: 5px solid var(--vert); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 15px; }
         @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-        #success-ui { display: none; text-align: center; padding: 20px; }
-        .check { font-size: 50px; color: var(--vert); }
+        #success-ui { display: none; text-align: center; padding: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .congrats { font-weight: 900; color: var(--vert); font-size: 1.5rem; margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -55,13 +74,16 @@
                 <input type="text" name="nom" placeholder="NOM" required>
                 <input type="text" name="postnom" placeholder="POSTNOM" required>
                 <input type="text" name="prenom" placeholder="PRÉNOM" required>
+                
+                <input type="text" name="adresse" placeholder="ADRESSE / VILLE" required>
+                
                 <input type="tel" name="telephone" placeholder="N° WHATSAPP" required>
-                <input type="email" name="email" placeholder="EMAIL">
+                <input type="email" name="email" placeholder="EMAIL (FACULTATIF)">
                 
                 <select name="cotisation" required>
                     <option value="" disabled selected>Prêt pour cotisation ?</option>
-                    <option value="Oui">Oui, prêt</option>
-                    <option value="Non">Non</option>
+                    <option value="Oui">Oui, je suis prêt</option>
+                    <option value="Non">Pas pour l'instant</option>
                 </select>
 
                 <select name="type_membre" required>
@@ -75,14 +97,14 @@
 
         <div id="loader">
             <div class="spinner"></div>
-            <p>Validation en cours...</p>
+            <p style="font-weight: 700; color: var(--vert);">Traitement en cours...</p>
         </div>
 
         <div id="success-ui">
-            <div class="check">✔</div>
-            <h3>BIENVENUE !</h3>
-            <p>Votre adhésion est valide et enregistrée avec succès.</p>
-            <a href="index.html" style="color: var(--vert); text-decoration: none; font-weight: 700;">Retour à l'accueil</a>
+            <div style="font-size: 60px; color: var(--vert);">✔</div>
+            <div class="congrats">BIENVENUE !</div>
+            <p>Votre adhésion au mouvement <strong>KNB</strong> est valide et enregistrée avec succès.</p>
+            <a href="index.html" style="display:inline-block; margin-top:20px; color:var(--vert); text-decoration:none; font-weight:900; border: 2px solid var(--vert); padding: 10px 20px; border-radius: 10px;">RETOUR À L'ACCUEIL</a>
         </div>
     </div>
 
@@ -92,6 +114,7 @@
         
         form.addEventListener('submit', e => {
             e.preventDefault();
+            
             document.getElementById('form-step').style.display = 'none';
             document.getElementById('loader').style.display = 'block';
 
@@ -101,7 +124,7 @@
                 document.getElementById('success-ui').style.display = 'block';
             })
             .catch(error => {
-                alert("Erreur de connexion");
+                alert("Une erreur est survenue. Vérifiez votre connexion.");
                 document.getElementById('loader').style.display = 'none';
                 document.getElementById('form-step').style.display = 'block';
             });
