@@ -1,56 +1,20 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adhésion - KNB</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
-    <style>
-        body { font-family: 'Montserrat', sans-serif; margin: 0; background: #f4f4f4; }
-        header { background: #007a33; padding: 15px; text-align: center; color: white; }
-        .container { padding: 20px; max-width: 450px; margin: auto; }
-        form { background: white; padding: 25px; border-radius: 15px; }
-        input, select { width: 100%; padding: 15px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 8px; font-size: 16px; }
-        button { width: 100%; padding: 15px; background: #00aae4; color: white; border: none; font-weight: 900; border-radius: 8px; }
-    </style>
-</head>
-<body>
-    <header>REJOINDRE LE MOUVEMENT</header>
-    <div class="container">
-        <form id="form-knb">
-            <input type="text" name="nom" placeholder="NOM" required>
-            <input type="text" name="postnom" placeholder="POSTNOM" required>
-            <input type="text" name="prenom" placeholder="PRÉNOM" required>
-            <input type="text" name="adresse" placeholder="ADRESSE" required>
-            <input type="tel" name="telephone" placeholder="TÉLÉPHONE" required>
-            <input type="email" name="email" placeholder="EMAIL" required>
-            <select name="type_membre" required>
-                <option value="">TYPE DE MEMBRE</option>
-                <option value="Actif">ACTIF</option>
-                <option value="Passif">PASSIF</option>
-            </select>
-            <button type="submit" id="submit-btn">ENVOYER</button>
-        </form>
-    </div>
+<form id="form-knb">
+    <input type="text" name="nom" placeholder="NOM" required>
+    <input type="text" name="postnom" placeholder="POSTNOM" required>
+    <input type="text" name="prenom" placeholder="PRÉNOM" required>
+    <input type="tel" name="telephone" placeholder="TÉLÉPHONE (WHATSAPP)" required>
+    <input type="email" name="email" placeholder="EMAIL (FACULTATIF)">
+    
+    <label>Prêt à verser une cotisation mensuelle ?</label>
+    <select name="cotisation" required>
+        <option value="Non">Non</option>
+        <option value="Oui">Oui</option>
+    </select>
 
-    <script>
-        // REMPLACE BIEN PAR TON URL DÉPLOYÉE (finissant par /exec)
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxXOxnmDXNYf2brhg9kSl4WBBupCptWi8rUBVLD1WvWaeuyAixi0bYrcg6FDqsqAkR6/exec'
-        const form = document.getElementById('form-knb')
+    <select name="type_membre" required>
+        <option value="Actif">Membre Actif</option>
+        <option value="Passif">Membre Passif</option>
+    </select>
 
-        form.addEventListener('submit', e => {
-            e.preventDefault()
-            const btn = document.getElementById('submit-btn')
-            btn.innerHTML = "ENVOI..."
-            
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    alert("Succès ! Tu es membre.");
-                    form.reset();
-                    btn.innerHTML = "ENVOYER";
-                })
-                .catch(error => alert("Erreur de base de données."));
-        })
-    </script>
-</body>
-</html>
+    <button type="submit" id="submit-btn">ENVOYER MON ADHÉSION</button>
+</form>
