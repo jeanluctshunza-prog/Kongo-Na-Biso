@@ -11,31 +11,54 @@
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--blanc); color: var(--noir); line-height: 1.6; }
 
-        /* HEADER FIXE */
+        /* HEADER RÉVISÉ POUR MOBILE */
         header { 
             background: var(--vert); 
             height: 65px; 
             display: flex; 
             align-items: center; 
             justify-content: space-between; 
-            padding: 0 5%; 
+            padding: 0 15px; /* Réduit pour gagner de la place */
             position: fixed; 
             width: 100%; 
             top: 0; 
             z-index: 1000; 
             box-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
-        .logo-box img { height: 45px; background: white; padding: 3px; border-radius: 5px; }
-        
-        /* MENU DE NAVIGATION */
-        nav a { color: white; text-decoration: none; font-weight: 700; font-size: 0.75rem; text-transform: uppercase; margin-left: 10px; }
-        nav a.active { color: var(--jaune); }
 
-        /* HERO SECTION : IMAGE ENTIÈRE ET SANS TEXTE */
+        .logo-box { flex-shrink: 0; } /* Empêche le logo de s'écraser */
+        .logo-box img { 
+            height: 40px; /* Légèrement réduit */
+            background: white; 
+            padding: 3px; 
+            border-radius: 5px; 
+            display: block;
+        }
+        
+        /* NAVIGATION ESPACÉE ET SANS CHEVAUCHEMENT */
+        nav { 
+            display: flex; 
+            align-items: center;
+            gap: 8px; /* Espace constant entre les boutons */
+        }
+
+        nav a { 
+            color: white; 
+            text-decoration: none; 
+            font-weight: 700; 
+            font-size: 0.65rem; /* Réduit pour mobile */
+            text-transform: uppercase; 
+            padding: 8px 6px;
+            background: rgba(255,255,255,0.1); /* Fond léger pour mieux voir les boutons */
+            border-radius: 4px;
+            white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+        }
+        nav a.active { color: var(--jaune); background: rgba(255,255,255,0.2); }
+
+        /* HERO SECTION */
         .hero { 
             height: auto;
-            min-height: 250px; /* Hauteur minimum pour mobile */
-            max-height: 450px; /* Évite qu'elle soit trop grande sur ordinateur */
+            min-height: 200px;
             margin-top: 65px;
             overflow: hidden;
             display: flex;
@@ -48,11 +71,11 @@
             width: 100%;
             height: auto;
             display: block;
-            object-fit: contain; /* L'image entière sera visible sans être coupée */
+            object-fit: contain;
         }
 
         /* SECTION DIRIGEANTS */
-        .section-title { text-align: center; padding: 30px 5% 10px 5%; font-weight: 900; color: var(--vert); text-transform: uppercase; font-size: 1.2rem; }
+        .section-title { text-align: center; padding: 30px 5% 10px 5%; font-weight: 900; color: var(--vert); text-transform: uppercase; font-size: 1.1rem; }
         .section-title span { border-bottom: 4px solid var(--jaune); }
 
         .dirigeants-grid { 
@@ -70,7 +93,7 @@
             text-align: center; 
             box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-        .card h3 { margin: 0; font-size: 0.85rem; text-transform: uppercase; color: var(--vert); }
+        .card h3 { margin: 0; font-size: 0.8rem; text-transform: uppercase; color: var(--vert); }
         .card p { margin: 5px 0 0; font-size: 0.7rem; font-weight: 700; color: #666; }
 
         /* BOUTON ADHÉSION */
@@ -85,9 +108,17 @@
             text-transform: uppercase; 
             display: inline-block;
             box-shadow: 0 5px 15px rgba(0,170,228,0.4);
+            font-size: 0.9rem;
         }
 
         footer { background: var(--noir); color: white; text-align: center; padding: 30px; font-size: 0.7rem; }
+
+        /* MEDIA QUERY POUR LES TÈLÈPHONES TRÈS PETITS */
+        @media (max-width: 360px) {
+            nav a { font-size: 0.55rem; padding: 6px 4px; }
+            header { padding: 0 8px; }
+            .logo-box img { height: 35px; }
+        }
     </style>
 </head>
 <body>
