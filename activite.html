@@ -10,12 +10,27 @@
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris); margin: 0; padding-bottom: 50px; }
 
-        /* HEADER */
+        /* HEADER MODIFIÉ POUR LE LOGO */
         header { 
-            background: var(--vert); color: white; padding: 15px; 
+            background: var(--vert); color: white; padding: 10px 15px; 
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
+        
+        .header-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px; /* Espace entre le logo et le texte */
+        }
+
+        .logo-img {
+            width: 35px; /* Taille du logo dans la barre */
+            height: 35px;
+            border-radius: 50%; /* Le rend rond si c'est un carré */
+            border: 1px solid var(--jaune);
+            object-fit: cover;
+        }
+
         .btn-back { color: white; text-decoration: none; font-weight: 900; font-size: 0.8rem; border: 2px solid var(--jaune); padding: 5px 10px; border-radius: 5px; }
 
         .title-section { text-align: center; padding: 30px 10px; color: var(--vert); text-transform: uppercase; }
@@ -33,7 +48,6 @@
             display: flex; flex-direction: column;
         }
 
-        /* LE BOUTON VOIR SUR FB */
         .btn-fb-view {
             background-color: #1877f2;
             color: white;
@@ -55,7 +69,10 @@
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
 
 <header>
-    <span style="font-weight: 900;">KONGO NA BISO</span>
+    <div class="header-logo">
+        <img src="logo.png" alt="Logo KNB" class="logo-img">
+        <span style="font-weight: 900;">KONGO NA BISO</span>
+    </div>
     <a href="index.html" class="btn-back">RETOUR ACCUEIL</a>
 </header>
 
@@ -69,7 +86,6 @@
 </div>
 
 <script>
-    // Ton URL Google Sheet déjà prête
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv"; 
 
     async function loadFBFeed() {
@@ -80,9 +96,8 @@
             const response = await fetch(CSV_URL);
             const text = await response.text();
             
-            // On sépare les lignes du CSV et on nettoie les espaces
             const rows = text.split("\n").map(r => r.trim()).filter(r => r !== "");
-            const links = rows.slice(1); // On ignore l'entête
+            const links = rows.slice(1); 
 
             if (links.length === 0) {
                 loader.innerText = "Aucune activité pour le moment.";
@@ -92,7 +107,6 @@
             loader.style.display = 'none';
 
             links.forEach(rawLink => {
-                // NETTOYAGE DU LIEN (Adapte les liens mobiles et partages)
                 let cleanLink = rawLink.replace("web.facebook.com", "www.facebook.com");
                 cleanLink = cleanLink.replace("m.facebook.com", "www.facebook.com");
                 
@@ -100,7 +114,6 @@
                     const card = document.createElement('div');
                     card.className = "fb-card";
                     
-                    // On insère le post Facebook + le bouton en dessous
                     card.innerHTML = `
                         <div class="fb-post" data-href="${cleanLink}" data-width="auto" data-show-text="true"></div>
                         <a href="${cleanLink}" target="_blank" class="btn-fb-view">VOIR SUR FACEBOOK</a>
@@ -110,7 +123,6 @@
                 }
             });
 
-            // On demande à Facebook de rendre les posts visibles
             if (window.FB) {
                 window.FB.XFBML.parse();
             }
