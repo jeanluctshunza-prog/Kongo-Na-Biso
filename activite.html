@@ -1,179 +1,255 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actualités - KONGO NA BISO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --blanc: #ffffff; --gris: #f1f3f5; --noir: #1a1a1a; }
-        
-        body { font-family: 'Open Sans', sans-serif; background: var(--gris); margin: 0; padding: 0; color: #333; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Actualités - KONGO NA BISO</title>
 
-        /* EN-TÊTE FIXE */
-        .navbar {
-            background: var(--blanc);
-            padding: 10px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-        .nav-logo { height: 45px; width: auto; }
-        .btn-retour {
-            text-decoration: none;
-            color: var(--vert);
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 8px 15px;
-            border: 2px solid var(--vert);
-            border-radius: 50px;
-            transition: 0.3s;
-        }
-        .btn-retour:hover { background: var(--vert); color: white; }
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
 
-        .main-content { max-width: 850px; margin: 20px auto; padding: 15px; }
+<style>
+:root { --vert:#007a33; --jaune:#f7d117; --bleu:#00aae4; --blanc:#ffffff; --gris:#f1f3f5; --noir:#1a1a1a; }
 
-        /* FICHE D'ACTUALITÉ */
-        .fiche-card { 
-            background: var(--blanc); border-radius: 20px; 
-            margin-bottom: 50px; overflow: hidden; 
-            box-shadow: 0 12px 30px rgba(0,0,0,0.1);
-        }
+body{
+font-family:'Open Sans',sans-serif;
+background:var(--gris);
+margin:0;
+padding:0;
+color:#333;
+overflow-x:hidden; /* AJOUT ACTIVITE : empêche scroll horizontal */
+}
 
-        .fiche-header { padding: 30px 20px 20px; text-align: center; }
-        
-        /* TITRE NOIR ET GRAS */
-        .fiche-header h2 { 
-            font-family: 'Montserrat', sans-serif; font-weight: 900; 
-            color: var(--noir); margin: 0 0 15px 0; font-size: 1.6rem; 
-            line-height: 1.2; text-transform: uppercase;
-        }
+/* ===== NAVBAR (CODE ORIGINAL CONSERVÉ) ===== */
 
-        /* DATE ENCADRÉE */
-        .date-box {
-            display: inline-block;
-            padding: 5px 15px;
-            border: 2px solid var(--bleu);
-            color: var(--bleu);
-            border-radius: 8px;
-            font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-        }
+.navbar{
+background:var(--blanc);
+padding:10px 20px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+position:sticky;
+top:0;
+z-index:1000;
+}
 
-        /* CAROUSEL */
-        .carousel-container {
-            width: 100%; height: 400px; overflow: hidden;
-            position: relative; background: #000;
-        }
-        .carousel-track {
-            display: flex; width: max-content;
-            animation: scroll-loop 30s linear infinite;
-        }
-        .carousel-track:hover { animation-play-state: paused; }
-        .carousel-track img {
-            height: 400px; width: auto; min-width: 350px;
-            object-fit: cover; border-right: 4px solid #fff;
-        }
+.nav-logo{height:45px;width:auto;}
 
-        @keyframes scroll-loop {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
+.btn-retour{
+text-decoration:none;
+color:var(--vert);
+font-weight:700;
+font-size:0.9rem;
+display:flex;
+align-items:center;
+gap:5px;
+padding:8px 15px;
+border:2px solid var(--vert);
+border-radius:50px;
+transition:.3s;
+}
 
-        /* DESCRIPTION EN BAS */
-        .fiche-body { padding: 25px; background: #fff; }
-        .fiche-desc { 
-            line-height: 1.7; 
-            font-size: 0.88rem !important;
-            text-align: justify; color: #444;
-            white-space: pre-wrap;
-        }
+.btn-retour:hover{background:var(--vert);color:white;}
 
-        #loading { text-align: center; font-weight: 700; color: var(--vert); margin: 50px; }
+.main-content{
+max-width:850px;
+margin:20px auto;
+padding:15px;
+}
 
-        @media (max-width: 600px) {
-            .fiche-header h2 { font-size: 1.3rem; }
-            .carousel-container, .carousel-track img { height: 280px; }
-            .nav-logo { height: 35px; }
-        }
-    </style>
+/* ===== FICHE ===== */
+
+.fiche-card{
+background:var(--blanc);
+border-radius:20px;
+margin-bottom:50px;
+overflow:hidden;
+box-shadow:0 12px 30px rgba(0,0,0,0.1);
+}
+
+.fiche-header{
+padding:30px 20px 20px;
+text-align:center;
+}
+
+.fiche-header h2{
+font-family:'Montserrat',sans-serif;
+font-weight:900;
+color:var(--noir);
+margin:0 0 15px 0;
+font-size:1.6rem;
+line-height:1.2;
+text-transform:uppercase;
+}
+
+/* DATE BOX */
+.date-box{
+display:inline-block;
+padding:5px 15px;
+border:2px solid var(--bleu);
+color:var(--bleu);
+border-radius:8px;
+font-weight:700;
+font-size:.9rem;
+text-transform:uppercase;
+}
+
+/* ===== CAROUSEL ===== */
+
+.carousel-container{
+width:100%;
+height:400px;
+overflow:hidden;
+position:relative;
+background:#000;
+}
+
+.carousel-track{
+display:flex;
+width:max-content;
+animation:scroll-loop 30s linear infinite;
+}
+
+.carousel-track:hover{animation-play-state:paused;}
+
+.carousel-track img{
+height:400px;
+width:auto;
+min-width:350px;
+object-fit:cover;
+border-right:4px solid #fff;
+}
+
+@keyframes scroll-loop{
+0%{transform:translateX(0);}
+100%{transform:translateX(-50%);}
+}
+
+/* DESCRIPTION */
+.fiche-body{padding:25px;background:#fff;}
+
+.fiche-desc{
+line-height:1.7;
+font-size:.88rem!important;
+text-align:justify;
+color:#444;
+white-space:pre-wrap;
+}
+
+#loading{
+text-align:center;
+font-weight:700;
+color:var(--vert);
+margin:50px;
+}
+
+/* AJOUT ACTIVITE : meilleur mobile */
+@media(max-width:600px){
+.fiche-header h2{font-size:1.3rem;}
+.carousel-container,
+.carousel-track img{height:280px;}
+.nav-logo{height:35px;}
+}
+</style>
 </head>
+
 <body>
 
-    <nav class="navbar">
-        <img src="logo.jpeg" alt="Logo KNB" class="nav-logo" onerror="this.src='https://via.placeholder.com/100x50?text=KNB'">
-        <a href="index.html" class="btn-retour">← Retour</a>
-    </nav>
+<nav class="navbar">
+<img src="logo.jpeg" class="nav-logo">
+<a href="index.html" class="btn-retour">← Retour</a>
+</nav>
 
-    <div class="main-content">
-        <div id="activites-container">
-            <div id="loading">Chargement des actualités...</div>
-        </div>
-    </div>
+<div class="main-content">
+<div id="activites-container">
+<div id="loading">Chargement des actualités...</div>
+</div>
+</div>
 
-    <script>
-        const sheetUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv";
+<script>
 
-        async function chargerActivites() {
-            try {
-                const res = await fetch(sheetUrl);
-                const csvText = await res.text();
-                const lines = csvText.split(/\r?\n/).filter(l => l.trim() !== "");
-                const container = document.getElementById('activites-container');
-                container.innerHTML = ''; 
+/* AJOUT ACTIVITE : mapping colonnes Google Sheet */
+const COLONNES = {
+TITRE:0,
+DATE:1,
+IMAGES:2,
+DESCRIPTION:3
+};
 
-                for (let i = lines.length - 1; i >= 1; i--) {
-                    const col = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if (col.length < 3) continue;
+const sheetUrl="https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv";
 
-                    const titre = col[0].replace(/"/g, "").trim();
-                    const date = col[1].replace(/"/g, "").trim();
-                    const photosRaw = col[2].replace(/"/g, "").trim();
-                    const description = col[3] ? col[3].replace(/"/g, "").trim() : "";
+/* AJOUT ACTIVITE : parser CSV sécurisé */
+function parseCSVLine(line){
+return line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+}
 
-                    const tableauPhotos = photosRaw.split(',')
-                        .map(link => link.trim())
-                        .filter(link => link.startsWith('http'));
+async function chargerActivites(){
 
-                    if(tableauPhotos.length === 0) continue;
+try{
+const res=await fetch(sheetUrl);
+const csvText=await res.text();
 
-                    const doublePhotos = [...tableauPhotos, ...tableauPhotos];
-                    let imagesHTML = '';
-                    doublePhotos.forEach(url => {
-                        imagesHTML += `<img src="${url}" onerror="this.src='logo.jpeg'">`;
-                    });
+const lines=csvText.split(/\r?\n/).filter(l=>l.trim()!=="");
+const container=document.getElementById('activites-container');
 
-                    const vitesse = Math.max(tableauPhotos.length * 5, 20);
+container.innerHTML='';
 
-                    container.innerHTML += `
-                        <div class="fiche-card">
-                            <div class="fiche-header">
-                                <h2>${titre}</h2>
-                                <div class="date-box">📅 ${date}</div>
-                            </div>
-                            
-                            <div class="carousel-container">
-                                <div class="carousel-track" style="animation-duration: ${vitesse}s">${imagesHTML}</div>
-                            </div>
+for(let i=lines.length-1;i>=1;i--){
 
-                            <div class="fiche-body">
-                                <div class="fiche-desc">${description}</div>
-                            </div>
-                        </div>`;
-                }
-            } catch (e) {
-                document.getElementById('loading').innerHTML = "Impossible de charger les actualités.";
-            }
-        }
-        chargerActivites();
-    </script>
+const col=parseCSVLine(lines[i]);
+if(col.length<3) continue;
+
+const titre=col[COLONNES.TITRE].replace(/"/g,"").trim();
+const date=col[COLONNES.DATE].replace(/"/g,"").trim();
+const photosRaw=col[COLONNES.IMAGES].replace(/"/g,"").trim();
+const description=col[COLONNES.DESCRIPTION]
+?col[COLONNES.DESCRIPTION].replace(/"/g,"").trim()
+:"";
+
+const tableauPhotos=photosRaw.split(',')
+.map(l=>l.trim())
+.filter(l=>l.startsWith('http'));
+
+if(tableauPhotos.length===0) continue;
+
+/* duplication pour boucle infinie */
+const doublePhotos=[...tableauPhotos,...tableauPhotos];
+
+let imagesHTML='';
+doublePhotos.forEach(url=>{
+imagesHTML+=`<img src="${url}" onerror="this.src='logo.jpeg'">`;
+});
+
+const vitesse=Math.max(tableauPhotos.length*5,20);
+
+container.innerHTML+=`
+<div class="fiche-card">
+
+<div class="fiche-header">
+<h2>${titre}</h2>
+<div class="date-box">📅 ${date}</div>
+</div>
+
+<div class="carousel-container">
+<div class="carousel-track" style="animation-duration:${vitesse}s">
+${imagesHTML}
+</div>
+</div>
+
+<div class="fiche-body">
+<div class="fiche-desc">${description}</div>
+</div>
+
+</div>`;
+}
+
+}catch(e){
+document.getElementById('loading').innerHTML="Impossible de charger les actualités.";
+}
+}
+
+chargerActivites();
+
+</script>
 </body>
 </html>
