@@ -31,13 +31,21 @@
         .card-img-box { width: 100%; height: 280px; position: relative; background: #eee; }
         .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
         
-        .date-tag { position: absolute; top: 15px; right: 15px; background: var(--bleu); color: white; padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; }
+        .date-tag { position: absolute; top: 15px; right: 15px; background: var(--bleu); color: white; padding: 5px 12px; border-radius: 8px; font-weight: 700; font-size: 0.75rem; z-index: 5; }
 
         .card-info { padding: 25px; flex: 1; }
         .card-title { font-family: 'Montserrat'; font-weight: 900; font-size: 1.2rem; color: var(--noir); margin: 0 0 12px 0; text-transform: uppercase; line-height: 1.2; }
         .card-text { font-size: 0.88rem; color: #555; line-height: 1.6; text-align: justify; margin: 0; overflow-y: auto; max-height: 150px; }
 
         #loading { font-weight: 700; color: var(--vert); }
+
+        /* AJOUT IA - Styles pour le défilement des images internes */
+        .inner-arrow { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; padding: 10px; cursor: pointer; z-index: 4; font-size: 1rem; border-radius: 5px; }
+        .inner-prev { left: 5px; }
+        .inner-next { right: 5px; }
+        .not-image-label { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; color: #999; display: none; }
+        .desc-label { font-weight: bold; color: var(--vert); font-family: 'Montserrat', sans-serif; font-size: 0.75rem; display: block; margin-bottom: 5px; }
+        .card-text { font-family: 'Arial', sans-serif; font-size: 0.82rem; } /* Police plus courte */
 
         @media (max-width: 500px) {
             .card { max-width: 100%; height: 80vh; }
@@ -62,10 +70,14 @@
         <article class="card" id="mainCard">
             <div class="card-img-box">
                 <div class="date-tag" id="cDate"></div>
-                <img src="" id="cImg" onerror="this.src='logo.jpeg'">
+                <button class="inner-arrow inner-prev" onclick="moveImg(-1)">&#10094;</button>
+                <button class="inner-arrow inner-next" onclick="moveImg(1)">&#10095;</button>
+                <div id="notImage" class="not-image-label">NOT IMAGE</div>
+                <img src="" id="cImg" onerror="handleImgError()">
             </div>
             <div class="card-info">
                 <h2 class="card-title" id="cTitle"></h2>
+                <span class="desc-label">DESCRIPTION :</span>
                 <p class="card-text" id="cDesc"></p>
             </div>
         </article>
@@ -76,6 +88,8 @@
         
         let dataList = [];
         let index = 0;
+        /* AJOUT IA */
+        let imgIndex = 0; 
 
         async function loadData() {
             try {
@@ -83,17 +97,17 @@
                 const txt = await r.text();
                 const lines = txt.split(/\r?\n/).filter(l => l.trim() !== "");
 
-                // On prend du plus récent au plus ancien
                 for (let i = lines.length - 1; i >= 1; i--) {
                     const col = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if (col.length < 3) continue;
 
+                    /* MODIFICATION IA : Récupérer TOUS les liens photos */
                     const photos = col[2].replace(/"/g, "").split(/[\s,]+/).filter(p => p.startsWith('http'));
 
                     dataList.push({
                         t: col[0].replace(/"/g, "").trim(),
                         d: col[1].replace(/"/g, "").trim(),
-                        img: photos[0] || 'logo.jpeg',
+                        imgs: photos.length > 0 ? photos : ['logo.jpeg'], /* MODIF IA : Stocke tableau d'images */
                         txt: col[3] ? col[3].replace(/"/g, "").replace(/""/g, '"').trim() : ""
                     });
                 }
@@ -106,11 +120,36 @@
             } catch (e) { console.error(e); }
         }
 
+        /* AJOUT IA : Gérer l'erreur d'image */
+        function handleImgError() {
+            document.getElementById('cImg').style.opacity = "0";
+            document.getElementById('notImage').style.display = "block";
+        }
+
+        /* AJOUT IA : Navigation entre les images d'une même carte */
+        function moveImg(step) {
+            const item = dataList[index];
+            imgIndex += step;
+            if (imgIndex < 0) imgIndex = item.imgs.length - 1;
+            if (imgIndex >= item.imgs.length) imgIndex = 0;
+            
+            document.getElementById('notImage').style.display = "none";
+            document.getElementById('cImg').style.opacity = "1";
+            document.getElementById('cImg').src = item.imgs[imgIndex];
+        }
+
         function render() {
             const item = dataList[index];
+            imgIndex = 0; /* AJOUT IA : Reset index image à chaque changement de carte */
+            
             document.getElementById('cTitle').innerText = item.t;
             document.getElementById('cDate').innerText = item.d;
-            document.getElementById('cImg').src = item.img;
+            
+            /* MODIFICATION IA : Gérer l'affichage initial de l'image */
+            document.getElementById('notImage').style.display = "none";
+            document.getElementById('cImg').style.opacity = "1";
+            document.getElementById('cImg').src = item.imgs[imgIndex];
+            
             document.getElementById('cDesc').innerText = item.txt;
 
             document.getElementById('prevBtn').disabled = (index === 0);
