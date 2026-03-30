@@ -60,14 +60,46 @@
         .social-links a { background: white; padding: 10px 15px; border-radius: 8px; text-decoration: none; color: var(--noir); font-size: 0.7rem; font-weight: 900; border: 1px solid #ccc; }
 
         footer { background: var(--noir); color: white; text-align: center; padding: 30px 20px; font-size: 0.7rem; }
+
+        /* AJOUT CLIENT : CSS */
+        /* Cacher le carousel original sans supprimer le code HTML */
+        .slider, .section-title:first-of-type { display: none !important; }
+
+        /* Style des photos équipe */
+        .member-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--jaune); background: #eee; }
+        .card.president .member-img { width: 120px; height: 120px; }
+
+        /* Menu Burger Mobile */
+        .burger-menu { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 10px; }
+        .burger-menu span { width: 25px; height: 3px; background: white; border-radius: 2px; }
+
+        @media (max-width: 768px) {
+            .burger-menu { display: flex; }
+            nav { 
+                display: none; 
+                position: absolute; top: 70px; left: 0; width: 100%; 
+                background: var(--vert); flex-direction: column; padding: 20px; gap: 10px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+            nav.active { display: flex; }
+            nav a { font-size: 0.9rem; padding: 15px; text-align: center; }
+        }
     </style>
 </head>
 <body>
     <header>
         <div class="logo-box"><img src="logo.jpeg" alt="Logo KNB"></div>
-        <nav>
+        
+        <div class="burger-menu" id="burgerBtn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <nav id="mainNav">
             <a href="index.html" style="color:var(--jaune)">Accueil</a>
             <a href="mouvement.html">Mouvement</a>
+            <a href="activite.html">Activités</a>
             <a href="adhesion.html">Adhésion</a>
         </nav>
     </header>
@@ -99,34 +131,34 @@
 
     <h2 class="section-title">Équipe Dirigeante</h2>
     <div class="dirigeants-grid">
-        <div class="card president"><h3>NGOMA MASSUNDU PHILIPPE</h3><p>PRÉSIDENT</p></div>
-        <div class="card"><h3>KINGO NGBIAMBI CHRISTOPHER</h3><p>VICE PRÉSIDENT</p></div>
-        <div class="card"><h3>MUKENDI KANKU SEDIM</h3><p>Secrétaire Général</p></div>
-        <div class="card"><h3>IYOTO KIMBIMBI EMILE</h3><p>S.G.A DISCIPLINE & RÈGLEMENT</p></div>
-        <div class="card"><h3>THETIKA KABEYA GIOVANNI</h3><p>S.G.A PARTENARIAT STRATÉGIQUE</p></div>
-        <div class="card"><h3>WAKIMESA KIMPILAMPILA GUY</h3><p>S.G.A MOBILISATION ET SENSIBILISATION</p></div>
-        <div class="card"><h3>EXAUCE TSHIMANGA NGOMA</h3><p>S.G.A FINANCE & DÉVELOPPEMENT</p></div>
-        <div class="card"><h3>EHOMBA MPIA AMOS</h3><p>DIR.CAB DU PRÉSIDENT</p></div>
-        <div class="card"><h3>NGANA YENGI MARIAM</h3><p>TRÉSORIÈRE</p></div>
-        <div class="card"><h3>ZOLA BENEDICTE</h3><p>PARSEC PRÉSIDENT</p></div>
-        <div class="card"><h3>NGOMA MAKUALA OLIVIER</h3><p>SENSIBILISATION</p></div>
-        <div class="card"><h3>MARDOCHÉ</h3><p>RESPONSABLE DE LA COMMUNICATION</p></div>
-        <div class="card"><h3>FEZA MUSA JOSEPHINE</h3><p>COMMUNICATRICE</p></div>
-        <div class="card"><h3>TSHISUAKA NJILA DYLAN</h3><p>Média & R.S / Projet & dév.</p></div>
-        <div class="card"><h3>NGANDWE LUFUNGULO STANIS</h3><p>SECRÉTAIRE ADMINISTRATIF</p></div>
-        <div class="card"><h3>KEVIN KINGAMBO</h3><p>CHARGÉ DE L’ORGANISATION</p></div>
-        <div class="card"><h3>OKONGO MPALA BEVERME</h3><p>JEUNESSE</p></div>
-        <div class="card"><h3>AARON ILUNGA</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
-        <div class="card"><h3>MANASSÉ NGONGO</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
-        <div class="card"><h3>DIKITELE ANGELINA</h3><p>Conseillère</p></div>
-        <div class="card"><h3>ALENGBIA BIANCCHI</h3><p>Consultant</p></div>
-        <div class="card"><h3>KASSANGA BRONDY</h3><p>Consultant</p></div>
-        <div class="card"><h3>LUKUSA JONATHAN</h3><p>Consultant</p></div>
-        <div class="card"><h3>SAMUEL MAKOFI</h3><p>Conseiller</p></div>
-        <div class="card"><h3>PATSHI PASCAL</h3><p>Conseiller</p></div>
-        <div class="card"><h3>AARON LUBOYA KAYOKO</h3><p>Consultant</p></div>
-        <div class="card"><h3>JOELLE KABASELE</h3><p>Consultante</p></div>
-        <div class="card"><h3>LEA NGOMA</h3><p>Consultante</p></div>
+        <div class="card president"><img src="chef1.jpg" class="member-img"><h3>NGOMA MASSUNDU PHILIPPE</h3><p>PRÉSIDENT</p></div>
+        <div class="card"><img src="membre1.jpg" class="member-img"><h3>KINGO NGBIAMBI CHRISTOPHER</h3><p>VICE PRÉSIDENT</p></div>
+        <div class="card"><img src="membre2.jpg" class="member-img"><h3>MUKENDI KANKU SEDIM</h3><p>Secrétaire Général</p></div>
+        <div class="card"><img src="membre3.jpg" class="member-img"><h3>IYOTO KIMBIMBI EMILE</h3><p>S.G.A DISCIPLINE & RÈGLEMENT</p></div>
+        <div class="card"><img src="membre4.jpg" class="member-img"><h3>THETIKA KABEYA GIOVANNI</h3><p>S.G.A PARTENARIAT STRATÉGIQUE</p></div>
+        <div class="card"><img src="membre5.jpg" class="member-img"><h3>WAKIMESA KIMPILAMPILA GUY</h3><p>S.G.A MOBILISATION ET SENSIBILISATION</p></div>
+        <div class="card"><img src="membre6.jpg" class="member-img"><h3>EXAUCE TSHIMANGA NGOMA</h3><p>S.G.A FINANCE & DÉVELOPPEMENT</p></div>
+        <div class="card"><img src="membre7.jpg" class="member-img"><h3>EHOMBA MPIA AMOS</h3><p>DIR.CAB DU PRÉSIDENT</p></div>
+        <div class="card"><img src="membre8.jpg" class="member-img"><h3>NGANA YENGI MARIAM</h3><p>TRÉSORIÈRE</p></div>
+        <div class="card"><img src="membre9.jpg" class="member-img"><h3>ZOLA BENEDICTE</h3><p>PARSEC PRÉSIDENT</p></div>
+        <div class="card"><img src="membre10.jpg" class="member-img"><h3>NGOMA MAKUALA OLIVIER</h3><p>SENSIBILISATION</p></div>
+        <div class="card"><img src="membre11.jpg" class="member-img"><h3>MARDOCHÉ</h3><p>RESPONSABLE DE LA COMMUNICATION</p></div>
+        <div class="card"><img src="membre12.jpg" class="member-img"><h3>FEZA MUSA JOSEPHINE</h3><p>COMMUNICATRICE</p></div>
+        <div class="card"><img src="membre13.jpg" class="member-img"><h3>TSHISUAKA NJILA DYLAN</h3><p>Média & R.S / Projet & dév.</p></div>
+        <div class="card"><img src="membre14.jpg" class="member-img"><h3>NGANDWE LUFUNGULO STANIS</h3><p>SECRÉTAIRE ADMINISTRATIF</p></div>
+        <div class="card"><img src="membre15.jpg" class="member-img"><h3>KEVIN KINGAMBO</h3><p>CHARGÉ DE L’ORGANISATION</p></div>
+        <div class="card"><img src="membre16.jpg" class="member-img"><h3>OKONGO MPALA BEVERME</h3><p>JEUNESSE</p></div>
+        <div class="card"><img src="membre17.jpg" class="member-img"><h3>AARON ILUNGA</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
+        <div class="card"><img src="membre18.jpg" class="member-img"><h3>MANASSÉ NGONGO</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
+        <div class="card"><img src="membre19.jpg" class="member-img"><h3>DIKITELE ANGELINA</h3><p>Conseillère</p></div>
+        <div class="card"><img src="membre20.jpg" class="member-img"><h3>ALENGBIA BIANCCHI</h3><p>Consultant</p></div>
+        <div class="card"><img src="membre21.jpg" class="member-img"><h3>KASSANGA BRONDY</h3><p>Consultant</p></div>
+        <div class="card"><img src="membre22.jpg" class="member-img"><h3>LUKUSA JONATHAN</h3><p>Consultant</p></div>
+        <div class="card"><img src="membre23.jpg" class="member-img"><h3>SAMUEL MAKOFI</h3><p>Conseiller</p></div>
+        <div class="card"><img src="membre24.jpg" class="member-img"><h3>PATSHI PASCAL</h3><p>Conseiller</p></div>
+        <div class="card"><img src="membre25.jpg" class="member-img"><h3>AARON LUBOYA KAYOKO</h3><p>Consultant</p></div>
+        <div class="card"><img src="membre26.jpg" class="member-img"><h3>JOELLE KABASELE</h3><p>Consultante</p></div>
+        <div class="card"><img src="membre27.jpg" class="member-img"><h3>LEA NGOMA</h3><p>Consultante</p></div>
     </div>
 
     <div class="contact-section">
@@ -143,5 +175,21 @@
     </div>
 
     <footer><p>KONGO NA BISO (KNB) © 2026</p></footer>
+
+    <script>
+        const burgerBtn = document.getElementById('burgerBtn');
+        const mainNav = document.getElementById('mainNav');
+
+        burgerBtn.addEventListener('click', () => {
+            mainNav.classList.toggle('active');
+        });
+
+        // Fermer le menu si on clique sur un lien
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                mainNav.classList.remove('active');
+            });
+        });
+    </script>
 </body>
 </html>
