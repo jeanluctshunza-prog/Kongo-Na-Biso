@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNB - Nos Activités</title>
+    
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
+    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
         :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --gris: #f0f2f5; --insta: #e1306c; }
@@ -30,13 +32,13 @@
             display: flex; flex-direction: column; align-items: center; gap: 25px; padding: 10px; 
         }
 
-        /* STYLE DES CARTES (Propre et fixe) */
+        /* STYLE DES CARTES */
         .card { 
             background: white; width: 100%; max-width: 500px; 
             border-radius: 12px; overflow: hidden; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex; flex-direction: column;
-            min-height: 450px; /* Évite le saut d'écran pendant le chargement */
+            min-height: 400px; 
         }
 
         .btn-view {
@@ -49,7 +51,7 @@
 
         #loader { text-align: center; padding: 20px; font-weight: bold; color: #666; }
         
-        iframe.insta-post { border: none; width: 100%; min-height: 500px; }
+        iframe.insta-post { border: none; width: 100%; min-height: 550px; }
     </style>
 </head>
 <body>
@@ -68,11 +70,11 @@
 
 <div class="title-section">
     <h2 style="margin:0;">Nos Activités</h2>
-    <p style="font-size: 0.8rem; color: #555;">Facebook & Instagram en direct</p>
+    <p style="font-size: 0.8rem; color: #555;">Actualités Facebook & Instagram</p>
 </div>
 
 <div id="social-feed">
-    <div id="loader">Chargement des activités...</div>
+    <div id="loader">Chargement en cours...</div>
 </div>
 
 <script>
@@ -86,53 +88,55 @@
             const response = await fetch(CSV_URL);
             const text = await response.text();
             
-            // On sépare les lignes et on nettoie
-            const rows = text.split("\n").map(r => r.trim()).filter(r => r !== "");
-            const links = rows.slice(1); 
+            // On sépare par ligne, puis par virgule (pour lire les colonnes A et B)
+            const rows = text.split("\n").map(r => r.split(",")).filter(r => r.length > 0);
+            const dataRows = rows.slice(1); 
 
-            if (links.length === 0) {
+            if (dataRows.length === 0) {
                 loader.innerText = "Aucune activité pour le moment.";
                 return;
             }
 
             loader.style.display = 'none';
 
-            links.forEach(rawLink => {
-                // On enlève les guillemets si présents
-                let cleanLink = rawLink.replace(/"/g, "");
-                
-                const card = document.createElement('div');
-                card.className = "card";
+            dataRows.forEach(cols => {
+                // COLONNE A (FB) - On nettoie les guillemets
+                let fbLink = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
+                // COLONNE B (INSTA) - On nettoie les guillemets
+                let instaLink = cols[1] ? cols[1].trim().replace(/"/g, "") : "";
 
-                if (cleanLink.includes("facebook.com")) {
-                    // NETTOYAGE FACEBOOK
-                    cleanLink = cleanLink.replace("web.facebook.com", "www.facebook.com");
-                    cleanLink = cleanLink.replace("m.facebook.com", "www.facebook.com");
-                    
+                // AJOUT FACEBOOK
+                if (fbLink.includes("facebook.com")) {
+                    fbLink = fbLink.replace("web.facebook.com", "www.facebook.com").replace("m.facebook.com", "www.facebook.com");
+                    const card = document.createElement('div');
+                    card.className = "card";
                     card.innerHTML = `
-                        <div class="fb-post" data-href="${cleanLink}" data-width="auto" data-show-text="true"></div>
-                        <a href="${cleanLink}" target="_blank" class="btn-view btn-fb">VOIR SUR FACEBOOK</a>
+                        <div class="fb-post" data-href="${fbLink}" data-width="auto" data-show-text="true"></div>
+                        <a href="${fbLink}" target="_blank" class="btn-view btn-fb">VOIR SUR FACEBOOK</a>
                     `;
                     feedContainer.appendChild(card);
-                } 
-                else if (cleanLink.includes("instagram.com")) {
-                    // NETTOYAGE INSTAGRAM
-                    if (!cleanLink.endsWith("/")) cleanLink += "/";
-                    const embedLink = cleanLink + "embed/";
+                }
 
+                // AJOUT INSTAGRAM
+                if (instaLink.includes("instagram.com")) {
+                    if (!instaLink.endsWith("/")) instaLink += "/";
+                    const embedLink = instaLink + "embed/";
+                    const card = document.createElement('div');
+                    card.className = "card";
                     card.innerHTML = `
                         <iframe src="${embedLink}" class="insta-post" scrolling="no" allowtransparency="true"></iframe>
-                        <a href="${cleanLink}" target="_blank" class="btn-view btn-insta">VOIR SUR INSTAGRAM</a>
+                        <a href="${instaLink}" target="_blank" class="btn-view btn-insta">VOIR SUR INSTAGRAM</a>
                     `;
                     feedContainer.appendChild(card);
                 }
             });
 
-            // Relancer le rendu des plugins
+            // Activer les posts après injection
             if (window.FB) window.FB.XFBML.parse();
             if (window.instgrm) window.instgrm.Embeds.process();
 
         } catch (error) {
+            console.error(error);
             loader.innerText = "Erreur de connexion aux données.";
         }
     }
