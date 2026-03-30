@@ -4,69 +4,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>KNB - Nos Activités</title>
+    <link rel="icon" type="image/jpeg" href="logo.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --gris: #f0f2f5; }
+        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --gris: #f0f2f5; --insta: #e1306c; }
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris); margin: 0; padding-bottom: 50px; }
 
-        /* HEADER MODIFIÉ POUR LE LOGO */
+        /* HEADER */
         header { 
             background: var(--vert); color: white; padding: 10px 15px; 
             display: flex; justify-content: space-between; align-items: center;
             position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.2);
         }
         
-        .header-logo {
-            display: flex;
-            align-items: center;
-            gap: 10px; /* Espace entre le logo et le texte */
-        }
-
-        .logo-img {
-            width: 35px; /* Taille du logo dans la barre */
-            height: 35px;
-            border-radius: 50%; /* Le rend rond si c'est un carré */
-            border: 1px solid var(--jaune);
-            object-fit: cover;
-        }
+        .header-logo { display: flex; align-items: center; gap: 10px; }
+        .logo-img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--jaune); object-fit: cover; background: white; }
 
         .btn-back { color: white; text-decoration: none; font-weight: 900; font-size: 0.8rem; border: 2px solid var(--jaune); padding: 5px 10px; border-radius: 5px; }
 
         .title-section { text-align: center; padding: 30px 10px; color: var(--vert); text-transform: uppercase; }
 
         /* CONTENEUR DE FLUX */
-        #fb-feed { 
+        #social-feed { 
             display: flex; flex-direction: column; align-items: center; gap: 25px; padding: 10px; 
         }
 
-        /* STYLE DES CARTES FB */
-        .fb-card { 
+        /* STYLE DES CARTES (Propre et fixe) */
+        .card { 
             background: white; width: 100%; max-width: 500px; 
             border-radius: 12px; overflow: hidden; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex; flex-direction: column;
+            min-height: 450px; /* Évite le saut d'écran pendant le chargement */
         }
 
-        .btn-fb-view {
-            background-color: #1877f2;
-            color: white;
-            text-decoration: none;
-            text-align: center;
-            padding: 12px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            transition: background 0.3s;
+        .btn-view {
+            color: white; text-decoration: none; text-align: center;
+            padding: 12px; font-weight: bold; font-size: 0.9rem;
         }
-        .btn-fb-view:hover { background-color: #166fe5; }
+        
+        .btn-fb { background-color: #1877f2; }
+        .btn-insta { background-color: var(--insta); }
 
         #loader { text-align: center; padding: 20px; font-weight: bold; color: #666; }
+        
+        iframe.insta-post { border: none; width: 100%; min-height: 500px; }
     </style>
 </head>
 <body>
 
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
+<script async src="//www.instagram.com/embed.js"></script>
 
 <header>
     <div class="header-logo">
@@ -78,24 +68,25 @@
 
 <div class="title-section">
     <h2 style="margin:0;">Nos Activités</h2>
-    <p style="font-size: 0.8rem; color: #555;">Mises à jour en direct de Facebook</p>
+    <p style="font-size: 0.8rem; color: #555;">Facebook & Instagram en direct</p>
 </div>
 
-<div id="fb-feed">
-    <div id="loader">Chargement des dernières activités...</div>
+<div id="social-feed">
+    <div id="loader">Chargement des activités...</div>
 </div>
 
 <script>
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv"; 
 
-    async function loadFBFeed() {
-        const feedContainer = document.getElementById('fb-feed');
+    async function loadFeed() {
+        const feedContainer = document.getElementById('social-feed');
         const loader = document.getElementById('loader');
 
         try {
             const response = await fetch(CSV_URL);
             const text = await response.text();
             
+            // On sépare les lignes et on nettoie
             const rows = text.split("\n").map(r => r.trim()).filter(r => r !== "");
             const links = rows.slice(1); 
 
@@ -107,33 +98,46 @@
             loader.style.display = 'none';
 
             links.forEach(rawLink => {
-                let cleanLink = rawLink.replace("web.facebook.com", "www.facebook.com");
-                cleanLink = cleanLink.replace("m.facebook.com", "www.facebook.com");
+                // On enlève les guillemets si présents
+                let cleanLink = rawLink.replace(/"/g, "");
                 
+                const card = document.createElement('div');
+                card.className = "card";
+
                 if (cleanLink.includes("facebook.com")) {
-                    const card = document.createElement('div');
-                    card.className = "fb-card";
+                    // NETTOYAGE FACEBOOK
+                    cleanLink = cleanLink.replace("web.facebook.com", "www.facebook.com");
+                    cleanLink = cleanLink.replace("m.facebook.com", "www.facebook.com");
                     
                     card.innerHTML = `
                         <div class="fb-post" data-href="${cleanLink}" data-width="auto" data-show-text="true"></div>
-                        <a href="${cleanLink}" target="_blank" class="btn-fb-view">VOIR SUR FACEBOOK</a>
+                        <a href="${cleanLink}" target="_blank" class="btn-view btn-fb">VOIR SUR FACEBOOK</a>
                     `;
-                    
+                    feedContainer.appendChild(card);
+                } 
+                else if (cleanLink.includes("instagram.com")) {
+                    // NETTOYAGE INSTAGRAM
+                    if (!cleanLink.endsWith("/")) cleanLink += "/";
+                    const embedLink = cleanLink + "embed/";
+
+                    card.innerHTML = `
+                        <iframe src="${embedLink}" class="insta-post" scrolling="no" allowtransparency="true"></iframe>
+                        <a href="${cleanLink}" target="_blank" class="btn-view btn-insta">VOIR SUR INSTAGRAM</a>
+                    `;
                     feedContainer.appendChild(card);
                 }
             });
 
-            if (window.FB) {
-                window.FB.XFBML.parse();
-            }
+            // Relancer le rendu des plugins
+            if (window.FB) window.FB.XFBML.parse();
+            if (window.instgrm) window.instgrm.Embeds.process();
 
         } catch (error) {
-            console.error("Erreur:", error);
             loader.innerText = "Erreur de connexion aux données.";
         }
     }
 
-    window.onload = loadFBFeed;
+    window.onload = loadFeed;
 </script>
 
 </body>
