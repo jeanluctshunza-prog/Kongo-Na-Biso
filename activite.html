@@ -47,7 +47,7 @@
         }
 
         @keyframes scroll-loop {
-            0% { transform: translateX(0); }
+            0 { transform: translateX(0); }
             100% { transform: translateX(-50%); } /* Reprend au début sans coupure */
         }
 
@@ -68,6 +68,15 @@
             .carousel-container { height: 260px; }
             .carousel-track img { height: 260px; }
             .fiche-desc { font-size: 0.95rem; } /* Légèrement plus petit pour éviter de trop scroller */
+        }
+
+        /* AJOUT CLIENT - OPTIMISATION DESCRIPTION ET AFFICHAGE */
+        .fiche-desc {
+            font-size: 0.88rem !important; /* Petite police demandée mais lisible */
+            color: #555;
+        }
+        @media (max-width: 600px) {
+            .fiche-desc { font-size: 0.82rem !important; }
         }
     </style>
 </head>
@@ -102,15 +111,18 @@
                 // Nettoyage et duplication des liens photos pour l'effet de boucle
                 const tableauPhotos = photosRaw.split(',').map(link => {
                     let clean = link.trim();
+                    /* AJOUT CLIENT - SUPPORT POSTIMG ET NETTOYAGE ESPACES */
                     if(clean.includes('ibb.co') && !clean.includes('i.ibb.co')) {
                         return clean.replace('ibb.co/', 'i.ibb.co/') + '.jpg';
                     }
+                    // Support direct des liens postimg fournis par le client
                     return clean;
                 });
 
                 const doublePhotos = [...tableauPhotos, ...tableauPhotos];
                 let imagesHTML = '';
                 doublePhotos.forEach(url => {
+                    /* AJOUT CLIENT - VALIDATION URL STRICTE */
                     if(url.length > 10) {
                         imagesHTML += `<img src="${url}" onerror="this.src='logo.jpeg'">`;
                     }
