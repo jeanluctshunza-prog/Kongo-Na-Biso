@@ -30,8 +30,21 @@
             background: white; width: 100%; max-width: 500px; 
             border-radius: 12px; overflow: hidden; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            min-height: 200px; /* Évite les sauts visuels au chargement */
+            display: flex; flex-direction: column;
         }
+
+        /* LE BOUTON VOIR SUR FB */
+        .btn-fb-view {
+            background-color: #1877f2;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            padding: 12px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+        .btn-fb-view:hover { background-color: #166fe5; }
 
         #loader { text-align: center; padding: 20px; font-weight: bold; color: #666; }
     </style>
@@ -56,8 +69,7 @@
 </div>
 
 <script>
-    /* AJOUT IA - CONFIGURATION */
-    // REMPLACE LE LIEN CI-DESSOUS PAR TON LIEN CSV GOOGLE SHEET
+    // Ton URL Google Sheet déjà prête
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv"; 
 
     async function loadFBFeed() {
@@ -68,31 +80,37 @@
             const response = await fetch(CSV_URL);
             const text = await response.text();
             
-            // On sépare les lignes du CSV
-            const rows = text.split("\n").slice(1); // On ignore la première ligne (titre)
+            // On sépare les lignes du CSV et on nettoie les espaces
+            const rows = text.split("\n").map(r => r.trim()).filter(r => r !== "");
+            const links = rows.slice(1); // On ignore l'entête
 
-            if (rows.length === 0 || rows[0].trim() === "") {
+            if (links.length === 0) {
                 loader.innerText = "Aucune activité pour le moment.";
                 return;
             }
 
             loader.style.display = 'none';
 
-            rows.forEach(row => {
-                const fbLink = row.trim();
-                if (fbLink !== "") {
-                    // On crée une carte pour chaque lien
+            links.forEach(rawLink => {
+                // NETTOYAGE DU LIEN (Adapte les liens mobiles et partages)
+                let cleanLink = rawLink.replace("web.facebook.com", "www.facebook.com");
+                cleanLink = cleanLink.replace("m.facebook.com", "www.facebook.com");
+                
+                if (cleanLink.includes("facebook.com")) {
                     const card = document.createElement('div');
                     card.className = "fb-card";
                     
-                    // Code spécial Facebook pour intégrer un post
-                    card.innerHTML = `<div class="fb-post" data-href="${fbLink}" data-width="auto" data-show-text="true"></div>`;
+                    // On insère le post Facebook + le bouton en dessous
+                    card.innerHTML = `
+                        <div class="fb-post" data-href="${cleanLink}" data-width="auto" data-show-text="true"></div>
+                        <a href="${cleanLink}" target="_blank" class="btn-fb-view">VOIR SUR FACEBOOK</a>
+                    `;
                     
                     feedContainer.appendChild(card);
                 }
             });
 
-            // On demande au moteur Facebook d'analyser les nouveaux liens ajoutés
+            // On demande à Facebook de rendre les posts visibles
             if (window.FB) {
                 window.FB.XFBML.parse();
             }
@@ -103,7 +121,6 @@
         }
     }
 
-    // Lancer la récupération au chargement
     window.onload = loadFBFeed;
 </script>
 
