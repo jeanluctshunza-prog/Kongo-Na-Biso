@@ -6,7 +6,10 @@
     <title>Histoire du Mouvement - KNB</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --blanc: #ffffff; }
+        /* === MODIFICATION IA === */
+        :root { --vert: #0057b8; --jaune: #f7d117; --blanc: #ffffff; }
+        /* couleur verte remplacée par bleu */
+
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Montserrat', sans-serif; line-height: 1.7; color: #2c3e50; background: #fff; overflow-x: hidden; }
         
@@ -26,7 +29,7 @@
         .slider { width: 100%; overflow: hidden; background: #f9f9f9; padding: 20px 0; margin: 30px 0; border-radius: 15px; }
         .slider-track { 
             display: flex; 
-            width: calc(250px * 12); /* 6 photos + 6 copies */
+            width: calc(250px * 14); /* === MODIFICATION IA === (ajout 1 photo + copie) */
             animation: scroll 25s linear infinite; 
         }
         .slide { width: 250px; height: 180px; padding: 0 10px; flex-shrink: 0; }
@@ -34,7 +37,7 @@
 
         @keyframes scroll { 
             0% { transform: translateX(0); } 
-            100% { transform: translateX(calc(-250px * 6)); } 
+            100% { transform: translateX(calc(-250px * 7)); } /* === MODIFICATION IA === */
         }
 
         .quote { background: #f9f9f9; padding: 20px; border-left: 5px solid var(--vert); font-style: italic; margin: 30px 0; }
@@ -67,12 +70,21 @@
                 <div class="slide"><img src="mouv4.jpg"></div>
                 <div class="slide"><img src="mouv5.jpg"></div>
                 <div class="slide"><img src="mouv6.jpg"></div>
+
+                <!-- === AJOUT IA START === -->
+                <div class="slide"><img src="mouv7.jpg"></div>
+                <!-- === AJOUT IA END === -->
+
                 <div class="slide"><img src="mouv1.jpg"></div>
                 <div class="slide"><img src="mouv2.jpg"></div>
                 <div class="slide"><img src="mouv3.jpg"></div>
                 <div class="slide"><img src="mouv4.jpg"></div>
                 <div class="slide"><img src="mouv5.jpg"></div>
                 <div class="slide"><img src="mouv6.jpg"></div>
+
+                <!-- === AJOUT IA START === -->
+                <div class="slide"><img src="mouv7.jpg"></div>
+                <!-- === AJOUT IA END === -->
             </div>
         </div>
 
