@@ -7,7 +7,7 @@
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        /* MODIFICATION : --vert passe en bleu pour tout le site */
+        /* MODIFICATION : --vert devient bleu pour changement partout */
         :root { --vert: #00aae4; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --blanc: #ffffff; }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--blanc); color: var(--noir); overflow-x: hidden; }
@@ -32,10 +32,11 @@
 
         .section-title { text-align: center; padding: 30px 10px 10px; font-weight: 900; color: var(--vert); text-transform: uppercase; font-size: 1.2rem; }
 
+        /* CAROUSEL CONFIGURÉ POUR 8 PHOTOS */
         .slider { width: 100%; overflow: hidden; background: #f9f9f9; padding: 20px 0; }
         .slider-track { 
             display: flex; 
-            width: calc(280px * 16); 
+            width: calc(280px * 16); /* 8 images + 8 copies = 16 */
             animation: scroll 30s linear infinite; 
         }
         .slide { width: 280px; height: 210px; padding: 0 10px; flex-shrink: 0; }
@@ -46,12 +47,14 @@
             100% { transform: translateX(calc(-280px * 8)); } 
         }
 
+        /* GRILLE ÉQUIPE */
         .dirigeants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; max-width: 600px; margin: 0 auto; }
         .card { background: #fff; border-top: 4px solid var(--vert); padding: 15px 5px; border-radius: 12px; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
         .card.president { grid-column: span 2; border-top: 6px solid var(--jaune); background: #fdfdfd; padding: 25px 10px; }
         .card h3 { margin: 0; font-size: 0.75rem; color: var(--vert); text-transform: uppercase; }
         .card p { margin: 3px 0 0; font-size: 0.6rem; font-weight: 700; color: #666; text-transform: uppercase; }
 
+        /* CONTACT & RÉSEAUX */
         .contact-section { background: #f4f4f4; padding: 40px 20px; text-align: center; border-top: 1px solid #ddd; }
         .contact-info p { margin: 8px 0; font-weight: 700; font-size: 0.9rem; }
         .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px; }
@@ -59,11 +62,12 @@
 
         footer { background: var(--noir); color: white; text-align: center; padding: 30px 20px; font-size: 0.7rem; }
 
+        /* AJOUT CLIENT : CSS */
         .slider, .section-title:first-of-type { display: none !important; }
 
-        /* MODIFICATION : Style Photo Portrait Rectangulaire 3:4 */
-        .member-img { width: 100%; height: 160px; border-radius: 8px; object-fit: cover; object-position: top; margin-bottom: 10px; border: 2px solid var(--jaune); background: #eee; }
-        .card.president .member-img { width: 200px; height: 260px; margin: 0 auto 10px; }
+        /* MODIFICATION : border-radius passé de 50% à 10% pour format CARRÉ */
+        .member-img { width: 80px; height: 80px; border-radius: 10%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--jaune); background: #eee; }
+        .card.president .member-img { width: 120px; height: 120px; }
 
         .burger-menu { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 10px; }
         .burger-menu span { width: 25px; height: 3px; background: white; border-radius: 2px; }
@@ -83,27 +87,18 @@
         .dirigeants-grid { display: none !important; } 
         
         .new-team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; max-width: 800px; margin: 0 auto; }
-        .new-card { background: #fff; border-radius: 15px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-bottom: 4px solid var(--vert); transition: 0.3s; }
+        .new-card { background: #fff; border-radius: 15px; padding: 20px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-bottom: 4px solid var(--vert); transition: 0.3s; }
         .new-card.priority-1 { grid-column: span 2; border-bottom: 5px solid var(--jaune); background: #fff; }
         
-        /* MODIFICATION : Image en Rectangle Vertical Largeur adaptable */
-        .new-card img { 
-            width: 100%; 
-            height: 180px; 
-            border-radius: 10px; 
-            object-fit: cover; 
-            object-position: top; 
-            margin-bottom: 12px; 
-            border: 2px solid var(--jaune); 
-        }
-        .new-card.priority-1 img { width: 60%; height: 280px; margin: 0 auto 12px; display: block; }
+        /* MODIFICATION : border-radius passé de 50% à 10% pour format CARRÉ */
+        .new-card img { width: 90px; height: 90px; border-radius: 10%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--jaune); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .new-card.priority-1 img { width: 140px; height: 140px; }
         
         .new-card h3 { margin: 0; font-size: 0.85rem; color: var(--vert); font-weight: 900; line-height: 1.2; }
         .new-card p { margin: 5px 0 0; font-size: 0.65rem; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
         
         @media (max-width: 480px) {
-            .new-card img { height: 150px; }
-            .new-card.priority-1 img { width: 85%; height: 230px; }
+            .new-card img { width: 80px; height: 80px; }
             .new-card h3 { font-size: 0.75rem; }
         }
     </style>
@@ -128,6 +123,28 @@
 
     <div class="hero"><img src="héros-bg.jpg" alt="KNB"></div>
     <div class="cta-box"><a href="adhesion.html" class="btn-adherer">Rejoindre le Mouvement</a></div>
+
+    <h2 class="section-title">Activités KONGO NA BISO</h2>
+    <div class="slider">
+        <div class="slider-track">
+            <div class="slide"><img src="photo1.jpg"></div>
+            <div class="slide"><img src="photo2.jpg"></div>
+            <div class="slide"><img src="photo3.jpg"></div>
+            <div class="slide"><img src="photo4.jpg"></div>
+            <div class="slide"><img src="photo5.jpg"></div>
+            <div class="slide"><img src="photo6.jpg"></div>
+            <div class="slide"><img src="photo7.jpg"></div>
+            <div class="slide"><img src="photo8.jpg"></div>
+            <div class="slide"><img src="photo1.jpg"></div>
+            <div class="slide"><img src="photo2.jpg"></div>
+            <div class="slide"><img src="photo3.jpg"></div>
+            <div class="slide"><img src="photo4.jpg"></div>
+            <div class="slide"><img src="photo5.jpg"></div>
+            <div class="slide"><img src="photo6.jpg"></div>
+            <div class="slide"><img src="photo7.jpg"></div>
+            <div class="slide"><img src="photo8.jpg"></div>
+        </div>
+    </div>
 
     <h2 class="section-title">Équipe Dirigeante</h2>
     <div class="new-team-grid">
@@ -262,37 +279,6 @@
             <h3>NGOMA INAYINAYI LÉA</h3>
             <p>CONSULTANTE</p>
         </div>
-    </div>
-
-    <div class="dirigeants-grid">
-        <div class="card president"><img src="chef1.jpg" class="member-img"><h3>NGOMA MASSUNDU PHILIPPE</h3><p>PRÉSIDENT</p></div>
-        <div class="card"><img src="membre1.jpg" class="member-img"><h3>KINGO NGBIAMBI CHRISTOPHER</h3><p>VICE PRÉSIDENT</p></div>
-        <div class="card"><img src="membre2.jpg" class="member-img"><h3>MUKENDI KANKU SEDIM</h3><p>Secrétaire Général</p></div>
-        <div class="card"><img src="membre3.jpg" class="member-img"><h3>IYOTO KIMBIMBI EMILE</h3><p>S.G.A DISCIPLINE & RÈGLEMENT</p></div>
-        <div class="card"><img src="membre4.jpg" class="member-img"><h3>THETIKA KABEYA GIOVANNI</h3><p>S.G.A PARTENARIAT STRATÉGIQUE</p></div>
-        <div class="card"><img src="membre5.jpg" class="member-img"><h3>WAKIMESA KIMPILAMPILA GUY</h3><p>S.G.A MOBILISATION ET SENSIBILISATION</p></div>
-        <div class="card"><img src="membre6.jpg" class="member-img"><h3>EXAUCE TSHIMANGA NGOMA</h3><p>S.G.A FINANCE & DÉVELOPPEMENT</p></div>
-        <div class="card"><img src="membre7.jpg" class="member-img"><h3>EHOMBA MPIA AMOS</h3><p>DIR.CAB DU PRÉSIDENT</p></div>
-        <div class="card"><img src="membre8.jpg" class="member-img"><h3>NGANA YENGI MARIAM</h3><p>TRÉSORIÈRE</p></div>
-        <div class="card"><img src="membre9.jpg" class="member-img"><h3>ZOLA BENEDICTE</h3><p>PARSEC PRÉSIDENT</p></div>
-        <div class="card"><img src="membre10.jpg" class="member-img"><h3>NGOMA MAKUALA OLIVIER</h3><p>SENSIBILISATION</p></div>
-        <div class="card"><img src="membre11.jpg" class="member-img"><h3>MARDOCHÉ</h3><p>RESPONSABLE DE LA COMMUNICATION</p></div>
-        <div class="card"><img src="membre12.jpg" class="member-img"><h3>FEZA MUSA JOSEPHINE</h3><p>COMMUNICATRICE</p></div>
-        <div class="card"><img src="membre13.jpg" class="member-img"><h3>TSHISUAKA NJILA DYLAN</h3><p>Média & R.S / Projet & dév.</p></div>
-        <div class="card"><img src="membre14.jpg" class="member-img"><h3>NGANDWE LUFUNGULO STANIS</h3><p>SECRÉTAIRE ADMINISTRATIF</p></div>
-        <div class="card"><img src="membre15.jpg" class="member-img"><h3>KEVIN KINGAMBO</h3><p>CHARGÉ DE L’ORGANISATION</p></div>
-        <div class="card"><img src="membre16.jpg" class="member-img"><h3>OKONGO MPALA BEVERME</h3><p>JEUNESSE</p></div>
-        <div class="card"><img src="membre17.jpg" class="member-img"><h3>AARON ILUNGA</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
-        <div class="card"><img src="membre18.jpg" class="member-img"><h3>MANASSÉ NGONGO</h3><p>CHARGÉ DE LA SÉCURITÉ</p></div>
-        <div class="card"><img src="membre19.jpg" class="member-img"><h3>DIKITELE ANGELINA</h3><p>Conseillère</p></div>
-        <div class="card"><img src="membre20.jpg" class="member-img"><h3>ALENGBIA BIANCCHI</h3><p>Consultant</p></div>
-        <div class="card"><img src="membre21.jpg" class="member-img"><h3>KASSANGA BRONDY</h3><p>Consultant</p></div>
-        <div class="card"><img src="membre22.jpg" class="member-img"><h3>LUKUSA JONATHAN</h3><p>Consultant</p></div>
-        <div class="card"><img src="membre23.jpg" class="member-img"><h3>SAMUEL MAKOFI</h3><p>Conseiller</p></div>
-        <div class="card"><img src="membre24.jpg" class="member-img"><h3>PATSHI PASCAL</h3><p>Conseiller</p></div>
-        <div class="card"><img src="membre25.jpg" class="member-img"><h3>AARON LUBOYA KAYOKO</h3><p>Consultant</p></div>
-        <div class="card"><img src="membre26.jpg" class="member-img"><h3>JOELLE KABASELE</h3><p>Consultante</p></div>
-        <div class="card"><img src="membre27.jpg" class="member-img"><h3>LEA NGOMA</h3><p>Consultante</p></div>
     </div>
 
     <div class="contact-section">
