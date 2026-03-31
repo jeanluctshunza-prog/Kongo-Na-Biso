@@ -7,7 +7,8 @@
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #007a33; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --blanc: #ffffff; }
+        /* MODIFICATION : --vert passe en bleu pour tout le site */
+        :root { --vert: #00aae4; --jaune: #f7d117; --bleu: #00aae4; --noir: #1a1a1a; --blanc: #ffffff; }
         * { box-sizing: border-box; }
         body { margin: 0; font-family: 'Montserrat', sans-serif; background-color: var(--blanc); color: var(--noir); overflow-x: hidden; }
 
@@ -31,11 +32,10 @@
 
         .section-title { text-align: center; padding: 30px 10px 10px; font-weight: 900; color: var(--vert); text-transform: uppercase; font-size: 1.2rem; }
 
-        /* CAROUSEL CONFIGURÉ POUR 8 PHOTOS */
         .slider { width: 100%; overflow: hidden; background: #f9f9f9; padding: 20px 0; }
         .slider-track { 
             display: flex; 
-            width: calc(280px * 16); /* 8 images + 8 copies = 16 */
+            width: calc(280px * 16); 
             animation: scroll 30s linear infinite; 
         }
         .slide { width: 280px; height: 210px; padding: 0 10px; flex-shrink: 0; }
@@ -43,17 +43,15 @@
 
         @keyframes scroll { 
             0% { transform: translateX(0); } 
-            100% { transform: translateX(calc(-280px * 8)); } /* On défile les 8 premières */
+            100% { transform: translateX(calc(-280px * 8)); } 
         }
 
-        /* GRILLE ÉQUIPE */
         .dirigeants-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 15px; max-width: 600px; margin: 0 auto; }
         .card { background: #fff; border-top: 4px solid var(--vert); padding: 15px 5px; border-radius: 12px; text-align: center; box-shadow: 0 3px 6px rgba(0,0,0,0.05); }
         .card.president { grid-column: span 2; border-top: 6px solid var(--jaune); background: #fdfdfd; padding: 25px 10px; }
         .card h3 { margin: 0; font-size: 0.75rem; color: var(--vert); text-transform: uppercase; }
         .card p { margin: 3px 0 0; font-size: 0.6rem; font-weight: 700; color: #666; text-transform: uppercase; }
 
-        /* CONTACT & RÉSEAUX */
         .contact-section { background: #f4f4f4; padding: 40px 20px; text-align: center; border-top: 1px solid #ddd; }
         .contact-info p { margin: 8px 0; font-weight: 700; font-size: 0.9rem; }
         .social-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-top: 15px; }
@@ -61,15 +59,12 @@
 
         footer { background: var(--noir); color: white; text-align: center; padding: 30px 20px; font-size: 0.7rem; }
 
-        /* AJOUT CLIENT : CSS */
-        /* Cacher le carousel original sans supprimer le code HTML */
         .slider, .section-title:first-of-type { display: none !important; }
 
-        /* Style des photos équipe */
-        .member-img { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin-bottom: 10px; border: 2px solid var(--jaune); background: #eee; }
-        .card.president .member-img { width: 120px; height: 120px; }
+        /* MODIFICATION : Style Photo Portrait Rectangulaire 3:4 */
+        .member-img { width: 100%; height: 160px; border-radius: 8px; object-fit: cover; object-position: top; margin-bottom: 10px; border: 2px solid var(--jaune); background: #eee; }
+        .card.president .member-img { width: 200px; height: 260px; margin: 0 auto 10px; }
 
-        /* Menu Burger Mobile */
         .burger-menu { display: none; cursor: pointer; flex-direction: column; gap: 5px; padding: 10px; }
         .burger-menu span { width: 25px; height: 3px; background: white; border-radius: 2px; }
 
@@ -85,19 +80,30 @@
             nav a { font-size: 0.9rem; padding: 15px; text-align: center; }
         }
 
-        /* AJOUT CLIENT : NOUVELLE ORGANISATION EQUIPE */
-        .dirigeants-grid { display: none !important; } /* On cache l'ancienne grille pour la nouvelle */
+        .dirigeants-grid { display: none !important; } 
         
         .new-team-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; padding: 15px; max-width: 800px; margin: 0 auto; }
-        .new-card { background: #fff; border-radius: 15px; padding: 20px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-bottom: 4px solid var(--vert); transition: 0.3s; }
+        .new-card { background: #fff; border-radius: 15px; padding: 15px 10px; text-align: center; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-bottom: 4px solid var(--vert); transition: 0.3s; }
         .new-card.priority-1 { grid-column: span 2; border-bottom: 5px solid var(--jaune); background: #fff; }
-        .new-card img { width: 90px; height: 90px; border-radius: 50%; object-fit: cover; margin-bottom: 12px; border: 3px solid var(--jaune); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
-        .new-card.priority-1 img { width: 140px; height: 140px; }
+        
+        /* MODIFICATION : Image en Rectangle Vertical Largeur adaptable */
+        .new-card img { 
+            width: 100%; 
+            height: 180px; 
+            border-radius: 10px; 
+            object-fit: cover; 
+            object-position: top; 
+            margin-bottom: 12px; 
+            border: 2px solid var(--jaune); 
+        }
+        .new-card.priority-1 img { width: 60%; height: 280px; margin: 0 auto 12px; display: block; }
+        
         .new-card h3 { margin: 0; font-size: 0.85rem; color: var(--vert); font-weight: 900; line-height: 1.2; }
         .new-card p { margin: 5px 0 0; font-size: 0.65rem; font-weight: 700; color: #555; text-transform: uppercase; letter-spacing: 0.5px; }
         
         @media (max-width: 480px) {
-            .new-card img { width: 80px; height: 80px; }
+            .new-card img { height: 150px; }
+            .new-card.priority-1 img { width: 85%; height: 230px; }
             .new-card h3 { font-size: 0.75rem; }
         }
     </style>
@@ -120,30 +126,8 @@
         </nav>
     </header>
 
-    <div class="hero"><img src="hero-bg.jpg" alt="KNB"></div>
+    <div class="hero"><img src="héros-bg.jpg" alt="KNB"></div>
     <div class="cta-box"><a href="adhesion.html" class="btn-adherer">Rejoindre le Mouvement</a></div>
-
-    <h2 class="section-title">Activités KONGO NA BISO</h2>
-    <div class="slider">
-        <div class="slider-track">
-            <div class="slide"><img src="photo1.jpg"></div>
-            <div class="slide"><img src="photo2.jpg"></div>
-            <div class="slide"><img src="photo3.jpg"></div>
-            <div class="slide"><img src="photo4.jpg"></div>
-            <div class="slide"><img src="photo5.jpg"></div>
-            <div class="slide"><img src="photo6.jpg"></div>
-            <div class="slide"><img src="photo7.jpg"></div>
-            <div class="slide"><img src="photo8.jpg"></div>
-            <div class="slide"><img src="photo1.jpg"></div>
-            <div class="slide"><img src="photo2.jpg"></div>
-            <div class="slide"><img src="photo3.jpg"></div>
-            <div class="slide"><img src="photo4.jpg"></div>
-            <div class="slide"><img src="photo5.jpg"></div>
-            <div class="slide"><img src="photo6.jpg"></div>
-            <div class="slide"><img src="photo7.jpg"></div>
-            <div class="slide"><img src="photo8.jpg"></div>
-        </div>
-    </div>
 
     <h2 class="section-title">Équipe Dirigeante</h2>
     <div class="new-team-grid">
@@ -334,7 +318,6 @@
             mainNav.classList.toggle('active');
         });
 
-        // Fermer le menu si on clique sur un lien
         document.querySelectorAll('nav a').forEach(link => {
             link.addEventListener('click', () => {
                 mainNav.classList.remove('active');
