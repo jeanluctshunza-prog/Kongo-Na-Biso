@@ -8,7 +8,7 @@
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        :root { --vert: #00aae4; --jaune: #f7d117; --bleu: #00aae4; --gris: #f0f2f5; --insta: #e1306c; }
+        :root { --vert: #00aae4; --jaune: #f7d117; --gris: #f0f2f5; --insta: #e1306c; }
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris); margin: 0; padding-bottom: 50px; }
 
@@ -22,13 +22,10 @@
         .logo-img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--jaune); object-fit: cover; background: white; }
         .btn-back { color: white; text-decoration: none; font-weight: 900; font-size: 0.8rem; border: 2px solid var(--jaune); padding: 5px 10px; border-radius: 5px; }
 
-        /* ESPACEMENT DEMANDÉ PAR LE CLIENT (Espace pour futurs ajouts) */
-        .future-space { height: 250px; display: flex; align-items: center; justify-content: center; color: #bbb; font-style: italic; font-size: 0.8rem; }
-
-        .title-section { text-align: center; padding: 20px 10px; color: var(--vert); text-transform: uppercase; }
+        .title-section { text-align: center; padding: 30px 10px; color: var(--vert); text-transform: uppercase; }
 
         /* CONTENEUR DE FLUX */
-        #social-feed { display: flex; flex-direction: column; align-items: center; gap: 25px; padding: 10px; }
+        #social-feed { display: flex; flex-direction: column; align-items: center; gap: 40px; padding: 10px; }
 
         /* STYLE DES CARTES */
         .card { 
@@ -36,7 +33,7 @@
             border-radius: 12px; overflow: hidden; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex; flex-direction: column;
-            min-height: 200px;
+            margin-bottom: 20px; /* Espace entre les publications */
         }
 
         .btn-view {
@@ -63,11 +60,9 @@
     <a href="index.html" class="btn-back">RETOUR ACCUEIL</a>
 </header>
 
-<div class="future-space">Zone réservée pour les annonces prioritaires</div>
-
 <div class="title-section">
-    <h2 style="margin:0;">Dernières Activités</h2>
-    <p style="font-size: 0.8rem; color: #555;">Les plus récentes en premier</p>
+    <h2 style="margin:0;">Nos Activités</h2>
+    <p style="font-size: 0.8rem; color: #555;">Dernières publications en haut</p>
 </div>
 
 <div id="social-feed">
@@ -86,7 +81,8 @@
             const text = await response.text();
             
             const rows = text.split("\n").map(r => r.split(",")).filter(r => r.length > 1);
-            // ON INVERSE L'ORDRE ICI : Les dernières lignes du CSV deviennent les premières affichées
+            
+            // ICI : On enlève l'entête et on inverse pour avoir la fin du tableau au début
             const dataRows = rows.slice(1).reverse(); 
 
             if (dataRows.length === 0) {
@@ -100,9 +96,8 @@
                 let fbLink = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
                 let instaLink = cols[1] ? cols[1].trim().replace(/"/g, "") : "";
 
-                // --- FACEBOOK ---
+                // Bloc Facebook
                 if (fbLink && fbLink.includes("facebook.com")) {
-                    fbLink = fbLink.replace("web.facebook.com", "www.facebook.com").replace("m.facebook.com", "www.facebook.com");
                     const card = document.createElement('div');
                     card.className = "card";
                     card.innerHTML = `
@@ -112,7 +107,7 @@
                     feedContainer.appendChild(card);
                 }
 
-                // --- INSTAGRAM ---
+                // Bloc Instagram
                 if (instaLink && instaLink.includes("instagram.com")) {
                     let cleanInsta = instaLink.split('?')[0];
                     if (!cleanInsta.endsWith('/')) cleanInsta += '/';
@@ -120,15 +115,13 @@
                     const card = document.createElement('div');
                     card.className = "card";
                     card.innerHTML = `
-                        <blockquote class="instagram-media" data-instgrm-permalink="${cleanInsta}" data-instgrm-version="14" style="background:#FFF; border:0; border-radius:3px; box-shadow:0 0 1px 0 rgba(0,0,0,0.5),0 1px 10px 0 rgba(0,0,0,0.15); margin: 0px; padding:0; width:100%;">
-                        </blockquote>
+                        <blockquote class="instagram-media" data-instgrm-permalink="${cleanInsta}" data-instgrm-version="14" style="width:100%; margin:0;"></blockquote>
                         <a href="${cleanInsta}" target="_blank" class="btn-view btn-insta">VOIR SUR INSTAGRAM</a>
                     `;
                     feedContainer.appendChild(card);
                 }
             });
 
-            // Re-parser les widgets après insertion
             if (window.FB) window.FB.XFBML.parse();
             setTimeout(() => { if (window.instgrm) { window.instgrm.Embeds.process(); } }, 500);
 
