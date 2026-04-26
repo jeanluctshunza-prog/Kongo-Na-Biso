@@ -6,10 +6,8 @@
     <title>KNB - Nos Activités</title>
     
     <link rel="icon" type="image/jpeg" href="logo.jpeg">
-    
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        /* Changement du vert en bleu */
         :root { --vert: #00aae4; --jaune: #f7d117; --bleu: #00aae4; --gris: #f0f2f5; --insta: #e1306c; }
         * { box-sizing: border-box; }
         body { font-family: 'Montserrat', sans-serif; background-color: var(--gris); margin: 0; padding-bottom: 50px; }
@@ -24,7 +22,10 @@
         .logo-img { width: 35px; height: 35px; border-radius: 50%; border: 1px solid var(--jaune); object-fit: cover; background: white; }
         .btn-back { color: white; text-decoration: none; font-weight: 900; font-size: 0.8rem; border: 2px solid var(--jaune); padding: 5px 10px; border-radius: 5px; }
 
-        .title-section { text-align: center; padding: 30px 10px; color: var(--vert); text-transform: uppercase; }
+        /* ESPACEMENT DEMANDÉ PAR LE CLIENT (Espace pour futurs ajouts) */
+        .future-space { height: 250px; display: flex; align-items: center; justify-content: center; color: #bbb; font-style: italic; font-size: 0.8rem; }
+
+        .title-section { text-align: center; padding: 20px 10px; color: var(--vert); text-transform: uppercase; }
 
         /* CONTENEUR DE FLUX */
         #social-feed { display: flex; flex-direction: column; align-items: center; gap: 25px; padding: 10px; }
@@ -35,7 +36,7 @@
             border-radius: 12px; overflow: hidden; 
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
             display: flex; flex-direction: column;
-            min-height: 200px; /* Taille réduite au début, s'agrandit après chargement */
+            min-height: 200px;
         }
 
         .btn-view {
@@ -52,7 +53,6 @@
 
 <div id="fb-root"></div>
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/fr_FR/sdk.js#xfbml=1&version=v18.0"></script>
-
 <script async src="//www.instagram.com/embed.js"></script>
 
 <header>
@@ -63,9 +63,11 @@
     <a href="index.html" class="btn-back">RETOUR ACCUEIL</a>
 </header>
 
+<div class="future-space">Zone réservée pour les annonces prioritaires</div>
+
 <div class="title-section">
-    <h2 style="margin:0;">Nos Activités</h2>
-    <p style="font-size: 0.8rem; color: #555;">Actualités Directes</p>
+    <h2 style="margin:0;">Dernières Activités</h2>
+    <p style="font-size: 0.8rem; color: #555;">Les plus récentes en premier</p>
 </div>
 
 <div id="social-feed">
@@ -73,7 +75,6 @@
 </div>
 
 <script>
-    // TON URL GOOGLE SHEET CSV KNB
     const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSc50RBQgLLsA0HxQovLCDm88-exlV_SQmaNi_0eHMU9ygNc6my1fZZvERpQaMS7Z9zQwETeaYdHBtu/pub?output=csv"; 
 
     async function loadFeed() {
@@ -84,9 +85,9 @@
             const response = await fetch(CSV_URL);
             const text = await response.text();
             
-            // On sépare par ligne et par colonne (A et B)
-            const rows = text.split("\n").map(r => r.split(",")).filter(r => r.length > 0);
-            const dataRows = rows.slice(1); 
+            const rows = text.split("\n").map(r => r.split(",")).filter(r => r.length > 1);
+            // ON INVERSE L'ORDRE ICI : Les dernières lignes du CSV deviennent les premières affichées
+            const dataRows = rows.slice(1).reverse(); 
 
             if (dataRows.length === 0) {
                 loader.innerText = "Aucune activité pour le moment.";
@@ -99,8 +100,8 @@
                 let fbLink = cols[0] ? cols[0].trim().replace(/"/g, "") : "";
                 let instaLink = cols[1] ? cols[1].trim().replace(/"/g, "") : "";
 
-                // --- AJOUT FACEBOOK ---
-                if (fbLink.includes("facebook.com")) {
+                // --- FACEBOOK ---
+                if (fbLink && fbLink.includes("facebook.com")) {
                     fbLink = fbLink.replace("web.facebook.com", "www.facebook.com").replace("m.facebook.com", "www.facebook.com");
                     const card = document.createElement('div');
                     card.className = "card";
@@ -111,8 +112,8 @@
                     feedContainer.appendChild(card);
                 }
 
-                // --- AJOUT INSTAGRAM (MÉTHODE PAR BLOCKQUOTE) ---
-                if (instaLink.includes("instagram.com")) {
+                // --- INSTAGRAM ---
+                if (instaLink && instaLink.includes("instagram.com")) {
                     let cleanInsta = instaLink.split('?')[0];
                     if (!cleanInsta.endsWith('/')) cleanInsta += '/';
 
@@ -127,6 +128,7 @@
                 }
             });
 
+            // Re-parser les widgets après insertion
             if (window.FB) window.FB.XFBML.parse();
             setTimeout(() => { if (window.instgrm) { window.instgrm.Embeds.process(); } }, 500);
 
